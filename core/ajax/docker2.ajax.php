@@ -16,11 +16,23 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
+try {
+  require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+  include_file('core', 'authentification', 'php');
 
-// Fonction exécutée automatiquement avant la mise à jour du plugin
-  function template_pre_update() {
-
+  if (!isConnect('admin')) {
+    throw new Exception(__('401 - Accès non autorisé', __FILE__));
   }
-  
-?>
+
+  ajax::init();
+
+  if (init('action') == 'sync') {
+    docker2::pull();
+    ajax::success();
+  }
+
+  throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
+  /*     * *********Catch exeption*************** */
+} catch (Exception $e) {
+  ajax::error(displayException($e), $e->getCode());
+}

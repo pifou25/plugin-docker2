@@ -15,6 +15,34 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+$('#bt_syncDocker').off('click').on('click',function(){
+  $.ajax({
+    type: "POST",
+    url: "plugins/docker2/core/ajax/docker2.ajax.php",
+    data: {
+      action: "sync",
+    },
+    dataType: 'json',
+    global: false,
+    error: function (request, status, error) {
+      handleAjaxError(request, status, error);
+    },
+    success: function (data) {
+      if (data.state != 'ok') {
+        $('#div_alert').showAlert({message: data.result, level: 'danger'});
+        return;
+      }
+      $('#div_alert').showAlert({message: '{{Operation realisee avec succes}}', level: 'success'});
+      window.location.reload();
+    }
+  });
+})
+
+$('.eqLogicAttr[data-l1key=configuration][data-l2key="create::mode"]').off('change').on('change',function(){
+  $('.create_mode').hide();
+  $('.create_mode.'+$(this).value()).show();
+})
+
 
 /* Permet la réorganisation des commandes dans l'équipement */
 $("#table_cmd").sortable({

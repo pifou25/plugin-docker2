@@ -24,33 +24,46 @@ if (!isConnect()) {
 ?>
 <form class="form-horizontal">
   <fieldset>
-    <div class="form-group">
-      <label class="col-md-4 control-label">{{Global param 1}}
-        <sup><i class="fas fa-question-circle tooltips" title="{{Renseignez le paramètre 1 du plugin}}"></i></sup>
-      </label>
-      <div class="col-md-4">
-        <input class="configKey form-control" data-l1key="param1"/>
+    <?php for ($i = 1; $i <= config::byKey('max_docker_number', "docker2"); $i++) { ?>
+      <div class="col-lg-6">
+        <legend><i class="fas fa-broadcast-tower"></i> {{Docker }}<?php echo $i ?></legend>
+        <div class="form-group">
+          <label class="col-md-3 control-label">{{Activer}}
+            <sup><i class="fas fa-question-circle tooltips" title="{{Cocher la case pour activer le docker}} <?php echo $i ?>"></i></sup>
+          </label>
+          <div class="col-md-1">
+            <input type="checkbox" class="configKey" data-l1key="docker_config_<?php echo $i ?>" data-l2key="enable" />
+          </div>
+        </div>
+        <br>
+        <div id="docker_number_<?php echo $i ?>" style="display:none;">
+          <div class="form-group">
+            <label class="col-md-5 control-label">{{Nom}}</label>
+            <div class="col-md-6">
+              <input class="configKey form-control" data-l1key="docker_config_<?php echo $i ?>" data-l2key="name" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-5 control-label">{{Mode}}</label>
+            <div class="col-md-6">
+              <select class="configKey form-control" data-l1key="docker_config_<?php echo $i ?>" data-l2key="mode">
+                <option value="local">{{Locale}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label class="col-md-4 control-label">{{Global param 2}}
-        <sup><i class="fas fa-question-circle tooltips" title="{{Renseignez le paramètre 2 du plugin}}"></i></sup>
-      </label>
-      <div class="col-md-4">
-        <input class="configKey form-control" data-l1key="param2"/>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-md-4 control-label">{{Global param 3}}
-        <sup><i class="fas fa-question-circle tooltips" title="{{Sélectionnez du paramètre 3 du plugin}}"></i></sup>
-      </label>
-      <div class="col-md-4">
-        <select class="configKey form-control" data-l1key="param3">
-          <option value=""></option>
-          <option value="value1">value1</option>
-          <option value="value2">value2</option>
-        </select>
-      </div>
-    </div>
+    <?php } ?>
   </fieldset>
 </form>
+<script>
+  <?php for ($i = 1; $i <= config::byKey('max_docker_number', "docker2"); $i++) { ?>
+    $('.configKey[data-l1key="docker_config_<?php echo $i ?>"][data-l2key=enable]').off('change').on('change', function() {
+      if ($(this).value() == 0) {
+        $('#docker_number_<?php echo $i ?>').hide();
+      } else {
+        $('#docker_number_<?php echo $i ?>').show();
+      }
+    });
+  <?php } ?>
+</script>
