@@ -51,6 +51,17 @@ if (!isConnect()) {
               </select>
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-md-5 control-label">{{Fréquence de mise à jour}}</label>
+            <div class="col-md-6">
+              <div class="input-group">
+                <input class="configKey form-control" data-l1key="docker_config_<?php echo $i ?>" data-l2key="cron" />
+                <span class="input-group-btn">
+                  <a class="btn btn-default btn-sm cursor jeeHelper" data-helper="cron"><i class="fas fa-question-circle"></i></a>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     <?php } ?>

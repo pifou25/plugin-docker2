@@ -60,12 +60,30 @@ class docker2 extends eqLogic {
       return $output;
    }
 
+   public static function cron() {
+      for ($i = 1; $i <= config::byKey('max_docker_number', "docker2"); $i++) {
+         $config = config::byKey('docker_config_' . $i, 'docker2');
+         if ($config['enable'] != 1 || $config['cron'] == '') {
+            continue;
+         }
+         try {
+            $c = new Cron\CronExpression(checkAndFixCron($config['cron']), new Cron\FieldFactory);
+            if ($c->isDue()) {
+               self::pull($i);
+            }
+         } catch (Exception $exc) {
+            log::add('docker2', 'error', __('Expression cron non valide pour docker ', __FILE__) . $config['cron']);
+         }
+      }
+   }
+
 
    public static function pull($_docker_number = 1) {
       $dockers = self::execCmd(system::getCmdSudo() . ' docker ps -a', $_docker_number);
       if (isset($dockers['Command'])) {
          $dockers = array($dockers);
       }
+      $eqLogics = array();
       foreach ($dockers as $docker) {
          $eqLogic = self::byLogicalId($_docker_number . '::' . $docker['Names'], 'docker2');
          if (!is_object($eqLogic)) {
@@ -89,7 +107,60 @@ class docker2 extends eqLogic {
 
          $eqLogic->checkAndUpdateCmd('state', $docker['State']);
          $eqLogic->checkAndUpdateCmd('status', $docker['Status']);
+
+         $eqLogics[$docker['ID']] = $eqLogic;
       }
+      $docker_stats = self::execCmd(system::getCmdSudo() . ' docker stats --no-stream -a', $_docker_number);
+      foreach ($docker_stats as $docker_stat) {
+         if (!isset($eqLogics[$docker_stat['ID']]) || !is_object($eqLogics[$docker_stat['ID']])) {
+            continue;
+         }
+         $eqLogic = $eqLogics[$docker_stat['ID']];
+         $eqLogic->checkAndUpdateCmd('cpu', (float) $docker_stat['CPUPerc']);
+         $eqLogic->checkAndUpdateCmd('memory', (float) $docker_stat['MemPerc']);
+
+         $net = explode('/', $docker_stat['NetIO']);
+         $eqLogic->checkAndUpdateCmd('net_in', round((self::convertToUnit($net[0], 'M') - $eqLogic->getCache('stats::net_in', 0)) / (strtotime('now') - $eqLogic->getCache('stats::datetime', 0)), 2));
+         $eqLogic->checkAndUpdateCmd('net_out', round((self::convertToUnit($net[1], 'M') - $eqLogic->getCache('stats::net_out', 0)) / (strtotime('now') - $eqLogic->getCache('stats::datetime', 0)), 2));
+
+         $io = explode('/', $docker_stat['BlockIO']);
+         $eqLogic->checkAndUpdateCmd('io_in', round((self::convertToUnit($io[1], 'M') - $eqLogic->getCache('stats::io_in', 0)) / (strtotime('now') - $eqLogic->getCache('stats::datetime', 0)), 2));
+         $eqLogic->checkAndUpdateCmd('io_out', round((self::convertToUnit($io[1], 'M') - $eqLogic->getCache('stats::io_out', 0)) / (strtotime('now') - $eqLogic->getCache('stats::datetime', 0)), 2));
+
+         $eqLogic->setCache(
+            array(
+               'stats::net_in' => self::convertToUnit($net[0], 'M'),
+               'stats::net_out' => self::convertToUnit($net[1], 'M'),
+               'stats::io_in' => self::convertToUnit($io[0], 'M'),
+               'stats::io_out' => self::convertToUnit($io[1], 'M'),
+               'stats::datetime' => strtotime('now')
+            )
+         );
+      }
+   }
+
+   public static function convertToUnit($_string, $_unit) {
+      $_string = strtolower($_string);
+      $return = (float) $_string;
+      $coeff = 1;
+      if (strpos($_string, 'gib') !== false || strpos($_string, 'gb') !== false) {
+         $coeff = 1024 * 1024 * 1024;
+      } elseif (strpos($_string, 'mib') !== false || strpos($_string, 'mb') !== false) {
+         $coeff = 1024 * 1024;
+      } elseif (strpos($_string, 'kib') !== false || strpos($_string, 'kb') !== false) {
+         $coeff = 1024;
+      }
+      $return = $return * $coeff;
+      if ($_unit == 'K') {
+         return round($return / 1024, 2);
+      }
+      if ($_unit == 'M') {
+         return round($return / 1024 / 1024, 2);
+      }
+      if ($_unit == 'G') {
+         return round($return / 1024 / 1024 / 1024, 2);
+      }
+      return $return;
    }
 
 
@@ -138,6 +209,88 @@ class docker2 extends eqLogic {
       }
       $cmd->setType('info');
       $cmd->setSubType('string');
+      $cmd->setConfiguration('repeatEventManagement', 'never');
+      $cmd->setEqLogic_id($this->getId());
+      $cmd->save();
+
+      $cmd = $this->getCmd(null, 'cpu');
+      if (!is_object($cmd)) {
+         $cmd = new docker2Cmd();
+         $cmd->setLogicalId('cpu');
+         $cmd->setName(__('CPU', __FILE__));
+      }
+      $cmd->setType('info');
+      $cmd->setSubType('numeric');
+      $cmd->setUnite('%');
+      $cmd->setConfiguration('repeatEventManagement', 'never');
+      $cmd->setEqLogic_id($this->getId());
+      $cmd->save();
+
+      $cmd = $this->getCmd(null, 'memory');
+      if (!is_object($cmd)) {
+         $cmd = new docker2Cmd();
+         $cmd->setLogicalId('memory');
+         $cmd->setName(__('Mémoire', __FILE__));
+      }
+      $cmd->setType('info');
+      $cmd->setSubType('numeric');
+      $cmd->setUnite('%');
+      $cmd->setConfiguration('repeatEventManagement', 'never');
+      $cmd->setEqLogic_id($this->getId());
+      $cmd->save();
+
+      $cmd = $this->getCmd(null, 'io_in');
+      if (!is_object($cmd)) {
+         $cmd = new docker2Cmd();
+         $cmd->setLogicalId('io_in');
+         $cmd->setName(__('IO in', __FILE__));
+      }
+      $cmd->setType('info');
+      $cmd->setSubType('numeric');
+      $cmd->setUnite('MB');
+      $cmd->setConfiguration('repeatEventManagement', 'never');
+      $cmd->setEqLogic_id($this->getId());
+      $cmd->save();
+
+      $cmd = $this->getCmd(null, 'io_out');
+      if (!is_object($cmd)) {
+         $cmd = new docker2Cmd();
+         $cmd->setLogicalId('io_out');
+         $cmd->setName(__('IO out', __FILE__));
+      }
+      $cmd->setType('info');
+      $cmd->setSubType('numeric');
+      $cmd->setUnite('MB');
+      $cmd->setConfiguration('repeatEventManagement', 'never');
+      $cmd->setEqLogic_id($this->getId());
+      $cmd->save();
+
+      $cmd = $this->getCmd(null, 'net_in');
+      if (!is_object($cmd)) {
+         $cmd = new docker2Cmd();
+         $cmd->setLogicalId('net_in');
+         $cmd->setName(__('Réseaux in', __FILE__));
+      }
+      $cmd->setType('info');
+      $cmd->setSubType('numeric');
+      $cmd->setUnite('MB');
+      $cmd->setConfiguration('repeatEventManagement', 'never');
+      $cmd->setEqLogic_id($this->getId());
+      $cmd->save();
+
+      $cmd = $this->getCmd(null, 'net_out');
+      if (!is_object($cmd)) {
+         $cmd = new docker2Cmd();
+         $cmd->setLogicalId('net_out');
+         $cmd->setName(__('Réseaux out', __FILE__));
+      }
+      $cmd->setUnite('MB');
+      $cmd->setType('info');
+      $cmd->setSubType('numeric');
+      $cmd->setConfiguration('repeatEventManagement', 'never');
+      $cmd->setEqLogic_id($this->getId());
+      $cmd->save();
+
       $cmd->setConfiguration('repeatEventManagement', 'never');
       $cmd->setEqLogic_id($this->getId());
       $cmd->save();
