@@ -39,6 +39,22 @@ try {
     ajax::success($eqLogic->logs());
   }
 
+  if (init('action') == 'backup') {
+    $eqLogic = docker2::byId(init('id'));
+    if (!is_object($eqLogic)) {
+      throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
+    }
+    ajax::success($eqLogic->backupDocker());
+  }
+
+  if (init('action') == 'restore') {
+    $eqLogic = docker2::byId(init('id'));
+    if (!is_object($eqLogic)) {
+      throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
+    }
+    ajax::success($eqLogic->restore());
+  }
+
   throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
   /*     * *********Catch exeption*************** */
 } catch (Exception $e) {

@@ -69,7 +69,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
 		<div class="input-group pull-right" style="display:inline-flex;">
 			<span class="input-group-btn">
 				<!-- Les balises <a></a> sont volontairement fermées à la ligne suivante pour éviter les espaces entre les boutons. Ne pas modifier -->
-				<a class="btn btn-sm btn-default roundedLeft" id="bt_docker2Log"><i class="far fa-file"></i><span class="hidden-xs"> {{Logs docker}}</span>
+				<a class="btn btn-sm btn-default roundedLeft" id="bt_dockerBackup"><i class="fas fa-save"></i><span class="hidden-xs"> {{Backuper}}</span>
+				</a><a class="btn btn-sm btn-warning" id="bt_dockerRestore"><i class="fas fa-database"></i><span class="hidden-xs"> {{Restaurer}}</span>
+				</a><a class="btn btn-sm btn-default" id="bt_dockerLog"><i class="far fa-file"></i><span class="hidden-xs"> {{Logs docker}}</span>
 				</a><a class="btn btn-sm btn-default eqLogicAction" data-action="configure"><i class="fas fa-cogs"></i><span class="hidden-xs"> {{Configuration avancée}}</span>
 				</a><a class="btn btn-sm btn-default eqLogicAction" data-action="copy"><i class="fas fa-copy"></i><span class="hidden-xs"> {{Dupliquer}}</span>
 				</a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}

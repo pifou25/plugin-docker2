@@ -64,30 +64,20 @@ class docker2 extends eqLogic {
    }
 
    public static function backup() {
-      $folder = __DIR__ . '/../../data/backup';
-      if (!file_exists($folder)) {
-         mkdir($folder);
-      }
+
       foreach (eqLogic::byType('docker2', true) as $eqLogic) {
          if ($eqLogic->getConfiguration('saveMount') == 0) {
             continue;
          }
-         $cmd = 'tar -czf ' . $eqLogic->getId() . '.tar.gz';
-         $inspects = $eqLogic->inspect();
-         $find_folder = false;
-         foreach ($inspects as $inspect) {
-            foreach ($inspect['Mounts'] as $mount) {
-               if ($mount['Driver'] != 'local') {
-                  continue;
-               }
-               $cmd .= ' ' . $mount['Source'] . '/';
-               $find_folder = true;
-            }
-         }
-         if ($find_folder) {
-            shell_exec('cd ' . $folder . ';sudo ' . $cmd);
-         }
+         $eqLogic->backupDocker();
       }
+   }
+
+   public static function restoreDocker($_filepath) {
+      if (!file_exists($_filepath)) {
+         throw new Exception(__('Fichier de backup non trouvé : ', __FILE__) . $_filepath);
+      }
+      shell_exec('sudo tar -xf ' . $_filepath . ' -C /');
    }
 
    public static function cron() {
@@ -431,6 +421,43 @@ class docker2 extends eqLogic {
 
    public function inspect() {
       return self::execCmd(system::getCmdSudo() . ' docker inspect ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), '{{json . }}', false);
+   }
+
+   public function backupDocker() {
+      if ($this->getConfiguration('saveMount') == 0) {
+         throw new Exception(__('Ce docker n\'est pas sauvegarder', __FILE__));
+      }
+      $folder = __DIR__ . '/../../data/backup';
+      if (!file_exists($folder)) {
+         mkdir($folder);
+      }
+      $cmd = 'tar -czf ' . $this->getId() . '.tar.gz';
+      $inspects = $this->inspect();
+      $find_folder = false;
+      foreach ($inspects as $inspect) {
+         foreach ($inspect['Mounts'] as $mount) {
+            if ($mount['Driver'] != 'local') {
+               continue;
+            }
+            $cmd .= ' ' . $mount['Source'] . '/';
+            $find_folder = true;
+         }
+      }
+      if ($find_folder) {
+         shell_exec('cd ' . $folder . ';sudo ' . $cmd);
+      }
+   }
+
+   public function restore() {
+      if ($this->getConfiguration('saveMount') == 0) {
+         throw new Exception(__('Ce docker n\'est pas sauvegarder', __FILE__));
+      }
+      $filepath = __DIR__ . '/../../data/backup/' . $this->getId() . '.tar.gz';
+      if (!file_exists($filepath)) {
+         throw new Exception(__('Aucune sauvegarde trouvée pour ce docker', __FILE__));
+      }
+      self::restoreDocker($filepath);
+      $this->restart();
    }
 
    /*     * **********************Getteur Setteur*************************** */

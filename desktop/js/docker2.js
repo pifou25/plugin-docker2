@@ -19,8 +19,52 @@ $('#bt_editConfigFile').off('click').on('click', function() {
   jeedomUtils.loadPage('index.php?v=d&p=editor&root=plugins/docker2/data/config')
 })
 
-$('#bt_docker2Log').off('click').on('click',function(){
+$('#bt_dockerLog').off('click').on('click',function(){
   $('#md_modal').dialog({title: "{{Logs}}"}).load('index.php?v=d&plugin=docker2&modal=logs.docker&id='+$('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+})
+
+$('#bt_dockerBackup').off('click').on('click',function(){
+  $.ajax({
+    type: "POST",
+    url: "plugins/docker2/core/ajax/docker2.ajax.php",
+    data: {
+      action: "backup",
+      id: $('.eqLogicAttr[data-l1key=id]').value()
+    },
+    dataType: 'json',
+    error: function (request, status, error) {
+      handleAjaxError(request, status, error);
+    },
+    success: function (data) {
+      if (data.state != 'ok') {
+        $('#div_alert').showAlert({message: data.result, level: 'danger'});
+        return;
+      }
+      $('#div_alert').showAlert({message: '{{Operation realisee avec succes}}', level: 'success'});
+    }
+  });
+})
+
+$('#bt_dockerRestore').off('click').on('click',function(){
+  $.ajax({
+    type: "POST",
+    url: "plugins/docker2/core/ajax/docker2.ajax.php",
+    data: {
+      action: "restore",
+      id: $('.eqLogicAttr[data-l1key=id]').value()
+    },
+    dataType: 'json',
+    error: function (request, status, error) {
+      handleAjaxError(request, status, error);
+    },
+    success: function (data) {
+      if (data.state != 'ok') {
+        $('#div_alert').showAlert({message: data.result, level: 'danger'});
+        return;
+      }
+      $('#div_alert').showAlert({message: '{{Operation realisee avec succes}}', level: 'success'});
+    }
+  });
 })
 
 $('#bt_syncDocker').off('click').on('click',function(){
