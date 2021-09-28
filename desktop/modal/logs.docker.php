@@ -21,6 +21,29 @@ $eqLogic = docker2::byId(init('id'));
 if (!is_object($eqLogic)) {
     throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
 }
-echo '<pre>';
+echo '<a class="btn btn-default pull-right" id="bt_refreshLog"><i class="fas fa-sync"></i></a><br/><br/>';
+echo '<pre id="pre_docker2Logs">';
 echo $eqLogic->logs();
 echo '</pre>';
+?>
+
+
+<script>
+    $('#bt_refreshLog').off('click').on('click', function() {
+        $.ajax({
+            type: "POST",
+            url: "plugins/docker2/core/ajax/docker2.ajax.php",
+            data: {
+                action: "logs",
+                id: <?php echo init('id') ?>
+            },
+            dataType: 'json',
+            error: function(request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function(data) {
+                $('#pre_docker2Logs').empty().append(data.result);
+            }
+        });
+    });
+</script>

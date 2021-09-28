@@ -31,7 +31,6 @@ $('#bt_syncDocker').off('click').on('click',function(){
       action: "sync",
     },
     dataType: 'json',
-    global: false,
     error: function (request, status, error) {
       handleAjaxError(request, status, error);
     },

@@ -31,6 +31,14 @@ try {
     ajax::success();
   }
 
+  if (init('action') == 'logs') {
+    $eqLogic = docker2::byId(init('id'));
+    if (!is_object($eqLogic)) {
+      throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
+    }
+    ajax::success($eqLogic->logs());
+  }
+
   throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
   /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
