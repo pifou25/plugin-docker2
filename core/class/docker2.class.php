@@ -186,6 +186,7 @@ class docker2 extends eqLogic {
          $cmd->setLogicalId('start');
          $cmd->setName(__('Démarrer', __FILE__));
       }
+      $cmd->setDisplay('icon', '<i class="fas fa-play"></i>');
       $cmd->setType('action');
       $cmd->setSubType('other');
       $cmd->setEqLogic_id($this->getId());
@@ -197,10 +198,12 @@ class docker2 extends eqLogic {
          $cmd->setLogicalId('stop');
          $cmd->setName(__('Arreter', __FILE__));
       }
+      $cmd->setDisplay('icon', '<i class="fas fa-stop"></i>');
       $cmd->setType('action');
       $cmd->setSubType('other');
       $cmd->setEqLogic_id($this->getId());
       $cmd->save();
+
 
       $cmd = $this->getCmd(null, 'restart');
       if (!is_object($cmd)) {
@@ -208,6 +211,7 @@ class docker2 extends eqLogic {
          $cmd->setLogicalId('restart');
          $cmd->setName(__('Redémarrer', __FILE__));
       }
+      $cmd->setDisplay('icon', '<i class="fas fa-sync"></i>');
       $cmd->setType('action');
       $cmd->setSubType('other');
       $cmd->setEqLogic_id($this->getId());
@@ -219,6 +223,7 @@ class docker2 extends eqLogic {
          $cmd->setLogicalId('remove');
          $cmd->setName(__('Supprimmer', __FILE__));
       }
+      $cmd->setDisplay('icon', '<i class="fas fa-trash"></i>');
       $cmd->setType('action');
       $cmd->setSubType('other');
       $cmd->setEqLogic_id($this->getId());
@@ -325,6 +330,7 @@ class docker2 extends eqLogic {
             $cmd->setLogicalId('receate');
             $cmd->setName(__('Recréer', __FILE__));
          }
+         $cmd->setDisplay('icon', '<i class="fas fa-building"></i>');
          $cmd->setType('action');
          $cmd->setSubType('other');
          $cmd->setEqLogic_id($this->getId());
