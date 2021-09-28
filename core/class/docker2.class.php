@@ -57,7 +57,7 @@ class docker2 extends eqLogic {
          }
          return $return;
       }
-      return $output;
+      return implode("\n", $output);
    }
 
    public static function cron() {
@@ -106,7 +106,6 @@ class docker2 extends eqLogic {
          $eqLogic->save();
 
          $eqLogic->checkAndUpdateCmd('state', $docker['State']);
-         $eqLogic->checkAndUpdateCmd('status', $docker['Status']);
 
          $eqLogics[$docker['ID']] = $eqLogic;
       }
@@ -136,6 +135,19 @@ class docker2 extends eqLogic {
                'stats::datetime' => strtotime('now')
             )
          );
+      }
+
+      foreach (eqLogic::byType('docker2', true) as $eqLogic) {
+         if (isset($eqLogics[$eqLogic->getConfiguration('id')])) {
+            continue;
+         }
+         $eqLogic->checkAndUpdateCmd('state', 'Not found');
+         $eqLogic->checkAndUpdateCmd('cpu', 0);
+         $eqLogic->checkAndUpdateCmd('memory', 0);
+         $eqLogic->checkAndUpdateCmd('net_in', 0);
+         $eqLogic->checkAndUpdateCmd('net_out', 0);
+         $eqLogic->checkAndUpdateCmd('io_in', 0);
+         $eqLogic->checkAndUpdateCmd('io_out', 0);
       }
    }
 
@@ -195,6 +207,17 @@ class docker2 extends eqLogic {
          $cmd = new docker2Cmd();
          $cmd->setLogicalId('restart');
          $cmd->setName(__('Redémarrer', __FILE__));
+      }
+      $cmd->setType('action');
+      $cmd->setSubType('other');
+      $cmd->setEqLogic_id($this->getId());
+      $cmd->save();
+
+      $cmd = $this->getCmd(null, 'remove');
+      if (!is_object($cmd)) {
+         $cmd = new docker2Cmd();
+         $cmd->setLogicalId('remove');
+         $cmd->setName(__('Supprimmer', __FILE__));
       }
       $cmd->setType('action');
       $cmd->setSubType('other');
@@ -366,6 +389,9 @@ class docker2 extends eqLogic {
       self::execCmd(system::getCmdSudo() . ' docker rm -f ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
    }
 
+   public function logs() {
+      return self::execCmd(system::getCmdSudo() . ' docker logs -t -n 100 ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
+   }
 
    /*     * **********************Getteur Setteur*************************** */
 }
@@ -395,6 +421,8 @@ class docker2Cmd extends cmd {
          $eqLogic->rm();
          sleep(5);
          $eqLogic->create();
+      } else if ($this->getLogicalId() == 'remove') {
+         $eqLogic->rm();
       }
       docker2::pull();
    }

@@ -15,6 +15,10 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+$('#bt_docker2Log').off('click').on('click',function(){
+  $('#md_modal').dialog({title: "{{Logs}}"}).load('index.php?v=d&plugin=docker2&modal=logs.docker&id='+$('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+})
+
 $('#bt_syncDocker').off('click').on('click',function(){
   $.ajax({
     type: "POST",
