@@ -154,6 +154,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-3 control-label">{{Sauvegarder les mount}}</label>
+								<div class="col-sm-7">
+									<input type="checkbox" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="saveMount" />
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-3 control-label">{{Mode de création}}</label>
 								<div class="col-sm-7">
 									<select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="create::mode">

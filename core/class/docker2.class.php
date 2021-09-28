@@ -25,9 +25,12 @@ class docker2 extends eqLogic {
 
    /*     * ***********************Methode static*************************** */
 
-   public static function execCmd($_cmd, $_docker_number = 1, $_format = "{{json . }}") {
+   public static function execCmd($_cmd, $_docker_number = 1, $_format = "{{json . }}", $_notrunc = true) {
       if ($_format != '') {
-         $_cmd .= ' --format "{{json . }}" --no-trunc';
+         $_cmd .= ' --format "' . $_format . '"';
+      }
+      if ($_notrunc != '') {
+         $_cmd .= ' --no-trunc';
       }
       $config = config::byKey('docker_config_' . $_docker_number, 'docker2');
       if ($config['mode'] == 'local') {
@@ -50,7 +53,7 @@ class docker2 extends eqLogic {
          stream_set_blocking($stream, true);
          $output =  stream_get_contents($stream);
       }
-      if ($_format == "{{json . }}") {
+      if (strpos($_format, "json") !== false) {
          $return = array();
          foreach ($output as $line) {
             $return[] = json_decode($line, true);
@@ -58,6 +61,14 @@ class docker2 extends eqLogic {
          return $return;
       }
       return implode("\n", $output);
+   }
+
+   public static function backup() {
+      foreach (eqLogic::byType('docker2', true) as $eqLogic) {
+         if ($eqLogic->getConfiguration('saveMount') == 0) {
+            continue;
+         }
+      }
    }
 
    public static function cron() {
