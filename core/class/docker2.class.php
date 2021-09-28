@@ -74,7 +74,6 @@ class docker2 extends eqLogic {
          }
          $cmd = 'tar -czf ' . $eqLogic->getId() . '.tar.gz';
          $inspects = $eqLogic->inspect();
-         var_dump($inspect);
          $find_folder = false;
          foreach ($inspects as $inspect) {
             foreach ($inspect['Mounts'] as $mount) {
