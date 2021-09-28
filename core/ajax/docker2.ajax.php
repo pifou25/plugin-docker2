@@ -24,7 +24,7 @@ try {
     throw new Exception(__('401 - Accès non autorisé', __FILE__));
   }
 
-  ajax::init();
+  ajax::init(array('backupupload'));
 
   if (init('action') == 'sync') {
     docker2::pull();
@@ -53,6 +53,34 @@ try {
       throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
     }
     ajax::success($eqLogic->restore());
+  }
+
+  if (init('action') == 'backupupload') {
+    unautorizedInDemo();
+    $uploaddir = __DIR__ . '/../../data/backup';
+    if (!file_exists($uploaddir)) {
+      mkdir($uploaddir);
+    }
+    if (!file_exists($uploaddir)) {
+      throw new Exception(__('Répertoire de téléversement non trouvé : ', __FILE__) . $uploaddir);
+    }
+    if (!isset($_FILES['file'])) {
+      throw new Exception(__('Aucun fichier trouvé. Vérifiez le paramètre PHP (post size limit)', __FILE__));
+    }
+    $extension = strtolower(strrchr($_FILES['file']['name'], '.'));
+    if (!in_array($extension, array('.gz'))) {
+      throw new Exception(__('Extension du fichier non valide (autorisé .tar.gz) : ', __FILE__) . $extension);
+    }
+    if (filesize($_FILES['file']['tmp_name']) > 100000000) {
+      throw new Exception(__('Le fichier est trop gros (maximum 100Mo)', __FILE__));
+    }
+    if (!move_uploaded_file($_FILES['file']['tmp_name'], $uploaddir . '/' . $_FILES['file']['name'])) {
+      throw new Exception(__('Impossible de déplacer le fichier temporaire', __FILE__));
+    }
+    if (!file_exists($uploaddir . '/' . $_FILES['file']['name'])) {
+      throw new Exception(__('Impossible de téléverser le fichier (limite du serveur web ?)', __FILE__));
+    }
+    ajax::success();
   }
 
   throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));

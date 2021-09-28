@@ -23,6 +23,28 @@ $('#bt_dockerLog').off('click').on('click',function(){
   $('#md_modal').dialog({title: "{{Logs}}"}).load('index.php?v=d&plugin=docker2&modal=logs.docker&id='+$('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
 })
 
+$('#bt_dockerDownloadBackup').on('click', function() {
+  window.open('core/php/downloadFile.php?pathfile=/var/www/html/plugins/docker2/data/backup/' + $('.eqLogicAttr[data-l1key=id]').value()+'.tar.gz', "_blank", null)
+})
+
+$('#bt_dockerUploadBackup').fileupload({
+  dataType: 'json',
+  replaceFileInput: false,
+  done: function(e, data) {
+    if (data.result.state != 'ok') {
+      $('#div_alert').showAlert({
+        message: data.result.result,
+        level: 'danger'
+      })
+      return
+    }
+    $('#div_alert').showAlert({
+      message: '{{Fichier(s) ajouté(s) avec succès}}',
+      level: 'success'
+    })
+  }
+})
+
 $('#bt_dockerBackup').off('click').on('click',function(){
   $.ajax({
     type: "POST",

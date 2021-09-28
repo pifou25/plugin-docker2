@@ -188,7 +188,10 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<span class="input-group-btn">
 									<a class="btn btn-sm btn-success roundedLeft" id="bt_dockerBackup"><i class="fas fa-save"></i><span class="hidden-xs"> {{Sauvegarder le docker}}</span>
 									</a><a class="btn btn-sm btn-warning" id="bt_dockerRestore"><i class="fas fa-database"></i><span class="hidden-xs"> {{Restaurer le docker}}</span>
-									</a><a class="btn btn-sm btn-default" id="bt_dockerLog"><i class="far fa-file"></i><span class="hidden-xs"> {{Logs docker}}</span>
+									</a><a class="btn btn-sm btn-default" id="bt_dockerDownloadBackup"><i class="fas fa-download"></i><span class="hidden-xs"> {{Télécharger sauvegarde}}</span>
+									</a><span class="btn btn-default btn-file" style="height: 28px;line-height: 14px">
+										<i class="fas fa-upload"></i> {{Envoyer sauvegarde}}<input id="bt_dockerUploadBackup" type="file" name="file" data-url="plugins/docker2/core/ajax/docker2.ajax.php?action=backupupload">
+									</span><a class="btn btn-sm btn-default" id="bt_dockerLog"><i class="far fa-file"></i><span class="hidden-xs"> {{Logs docker}}</span>
 									</a>
 								</span>
 							</center>
