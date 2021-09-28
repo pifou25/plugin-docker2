@@ -40,29 +40,33 @@ $('#bt_dockerBackup').off('click').on('click',function(){
         $('#div_alert').showAlert({message: data.result, level: 'danger'});
         return;
       }
-      $('#div_alert').showAlert({message: '{{Operation realisee avec succes}}', level: 'success'});
+      $('#div_alert').showAlert({message: '{{Operation realisée avec succes}}', level: 'success'});
     }
   });
 })
 
 $('#bt_dockerRestore').off('click').on('click',function(){
-  $.ajax({
-    type: "POST",
-    url: "plugins/docker2/core/ajax/docker2.ajax.php",
-    data: {
-      action: "restore",
-      id: $('.eqLogicAttr[data-l1key=id]').value()
-    },
-    dataType: 'json',
-    error: function (request, status, error) {
-      handleAjaxError(request, status, error);
-    },
-    success: function (data) {
-      if (data.state != 'ok') {
-        $('#div_alert').showAlert({message: data.result, level: 'danger'});
-        return;
-      }
-      $('#div_alert').showAlert({message: '{{Operation realisee avec succes}}', level: 'success'});
+  bootbox.confirm('{{Etes vous sur de vouloir restaurer le dernier backup de ce docker ?}}', function(result) {
+    if (result) {
+      $.ajax({
+        type: "POST",
+        url: "plugins/docker2/core/ajax/docker2.ajax.php",
+        data: {
+          action: "restore",
+          id: $('.eqLogicAttr[data-l1key=id]').value()
+        },
+        dataType: 'json',
+        error: function (request, status, error) {
+          handleAjaxError(request, status, error);
+        },
+        success: function (data) {
+          if (data.state != 'ok') {
+            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+            return;
+          }
+          $('#div_alert').showAlert({message: '{{Operation realisée avec succes}}', level: 'success'});
+        }
+      });
     }
   });
 })
@@ -83,7 +87,7 @@ $('#bt_syncDocker').off('click').on('click',function(){
         $('#div_alert').showAlert({message: data.result, level: 'danger'});
         return;
       }
-      $('#div_alert').showAlert({message: '{{Operation realisee avec succes}}', level: 'success'});
+      $('#div_alert').showAlert({message: '{{Operation realisée avec succes}}', level: 'success'});
       window.location.reload();
     }
   });
