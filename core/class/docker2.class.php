@@ -28,9 +28,9 @@ class docker2 extends eqLogic {
    public static function execCmd($_cmd, $_docker_number = 1, $_format = "{{json . }}", $_notrunc = true) {
       if ($_format != '') {
          $_cmd .= ' --format "' . $_format . '"';
-      }
-      if ($_notrunc != '') {
-         $_cmd .= ' --no-trunc';
+         if ($_notrunc != '') {
+            $_cmd .= ' --no-trunc';
+         }
       }
       $config = config::byKey('docker_config_' . $_docker_number, 'docker2');
       if ($config['mode'] == 'local') {
@@ -64,9 +64,29 @@ class docker2 extends eqLogic {
    }
 
    public static function backup() {
+      $folder = __DIR__ . '/../../data/backup';
+      if (!file_exists($folder)) {
+         mkdir($folder);
+      }
       foreach (eqLogic::byType('docker2', true) as $eqLogic) {
          if ($eqLogic->getConfiguration('saveMount') == 0) {
             continue;
+         }
+         $cmd = 'tar -czf ' . $eqLogic->getId() . '.tar.gz';
+         $inspects = $eqLogic->inspect();
+         var_dump($inspect);
+         $find_folder = false;
+         foreach ($inspects as $inspect) {
+            foreach ($inspect['Mounts'] as $mount) {
+               if ($mount['Driver'] != 'local') {
+                  continue;
+               }
+               $cmd .= ' ' . $mount['Source'] . '/';
+               $find_folder = true;
+            }
+         }
+         if ($find_folder) {
+            shell_exec('cd ' . $folder . ';sudo ' . $cmd);
          }
       }
    }
@@ -408,6 +428,10 @@ class docker2 extends eqLogic {
 
    public function logs() {
       return self::execCmd(system::getCmdSudo() . ' docker logs -t -n 100 ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
+   }
+
+   public function inspect() {
+      return self::execCmd(system::getCmdSudo() . ' docker inspect ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), '{{json . }}', false);
    }
 
    /*     * **********************Getteur Setteur*************************** */
