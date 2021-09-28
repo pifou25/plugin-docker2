@@ -15,6 +15,10 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+$('#bt_editConfigFile').off('click').on('click', function() {
+  jeedomUtils.loadPage('index.php?v=d&p=editor&root=plugins/docker2/data/config')
+})
+
 $('#bt_docker2Log').off('click').on('click',function(){
   $('#md_modal').dialog({title: "{{Logs}}"}).load('index.php?v=d&plugin=docker2&modal=logs.docker&id='+$('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
 })
