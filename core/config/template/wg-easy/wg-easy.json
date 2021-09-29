@@ -1,6 +1,5 @@
 {
     "eqLogic" : {
-        "name":"wg-easy",
         "configuration":{
             "name":"wg-easy",
             "create::mode":"jeedom_compose",
@@ -16,6 +15,6 @@
         "UI_PORT" : {"type":"number","name":"Port UI","default":"51821"}
     },
     "docker-compose" : {
-        "file" : "wg-easy.compose"
+        "file" : "wg-easy/wg-easy.compose"
     }
 }

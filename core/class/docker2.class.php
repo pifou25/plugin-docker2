@@ -484,6 +484,28 @@ class docker2 extends eqLogic {
       $this->restart();
    }
 
+   public function applyTemplate($_template, $_values) {
+      $template = docker2::getTemplate($_template);
+      if (isset($template['docker-compose'])) {
+         $docker_compose = file_get_contents(__DIR__ . '/../config/template/' . $template['docker-compose']);
+         if ($docker_compose == '') {
+            throw new Exception(__('Erreur lors de la récuperation du docker compose : ', __FILE__) . $template['docker-compose']);
+         }
+      }
+      $this->import($template['eqLogic'], true);
+      $replace = [];
+      foreach ($_values as $key => $value) {
+         $replace['#' . $key . '#'] = $value;
+      }
+      if (isset($template['docker-compose'])) {
+         $this->setConfiguration('create::compose', str_replace(array_keys($replace), $replace, $docker_compose));
+         $this->save();
+      } else {
+         $this->setConfiguration('create::run', str_replace(array_keys($replace), $replace, $this->getConfiguration('create::run')));
+         $this->save();
+      }
+   }
+
    /*     * **********************Getteur Setteur*************************** */
 }
 
@@ -505,7 +527,6 @@ class docker2Cmd extends cmd {
       }
       return $_value;
    }
-
 
    public function execute($_options = array()) {
       if ($this->getType() == 'info') {
