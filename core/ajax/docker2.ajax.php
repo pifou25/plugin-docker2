@@ -83,6 +83,21 @@ try {
     ajax::success();
   }
 
+  if (init('action') == 'getTemplate') {
+    ajax::success(docker2::getTemplate());
+  }
+
+  if (init('action') == 'applyTemplate') {
+    $eqLogic = docker2::byId(init('id'));
+    if (!is_object($eqLogic)) {
+      throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
+    }
+    $eqLogic->applyTemplate(init('template'), init('values'));
+    ajax::success();
+  }
+
+
+
   throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
   /*     * *********Catch exeption*************** */
 } catch (Exception $e) {

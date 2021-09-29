@@ -1,0 +1,21 @@
+{
+    "eqLogic" : {
+        "name":"wg-easy",
+        "configuration":{
+            "name":"wg-easy",
+            "create::mode":"jeedom_compose",
+            "saveMount":1
+        }
+    },
+    "description" : "Docker pour installer wg-easy, un docker contenant Wireguard (VPN) avec une interface web pour gerer les utilisateurs, recuperer le QRcode, activer/désactiver un utilisateur...",
+    "configuration":{
+        "WG_HOST" : {"type":"input","name":"IP ou nom DNS"}, 
+        "PASSWORD" : {"type":"input","name":"Mot de passe d'accès à l'interface"},   
+        "WG_DEFAULT_DNS" : {"type":"input","name":"DNS","default":"1.1.1.1,9.9.9.9"},
+        "WG_PORT" : {"type":"number","name":"Port wireguard","default":"51820"},
+        "UI_PORT" : {"type":"number","name":"Port UI","default":"51821"}
+    },
+    "docker-compose" : {
+        "file" : "wg-easy.compose"
+    }
+}

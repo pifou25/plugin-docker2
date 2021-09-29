@@ -27,6 +27,41 @@ $('#bt_dockerDownloadBackup').on('click', function() {
   window.open('core/php/downloadFile.php?pathfile=/var/www/html/plugins/docker2/data/backup/' + $('.eqLogicAttr[data-l1key=id]').value()+'.tar.gz', "_blank", null)
 })
 
+$('#bt_docker2Assistant').off('click').on('click', function() {
+  $.ajax({
+    type: "POST",
+    url: "plugins/docker2/core/ajax/docker2.ajax.php",
+    data: {
+      action: "getTemplate",
+    },
+    dataType: 'json',
+    error: function (request, status, error) {
+      handleAjaxError(request, status, error);
+    },
+    success: function (data) {
+      if (data.state != 'ok') {
+        $('#div_alert').showAlert({message: data.result, level: 'danger'});
+        return;
+      }
+      var options = []
+      for(var i in data.result){
+        options.push({text:i,value:i})
+      }
+      bootbox.prompt({
+        title: "{{Nom du template ?}}",
+        inputType: 'select',
+        inputOptions: options,
+        callback: function (result) {
+          if(result == null){
+            return;
+          }
+          $('#md_modal').dialog({title: "{{Assistants}}"}).load('index.php?v=d&plugin=docker2&modal=assistant.docker&template='+result+'&id='+$('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+        }
+    });
+    }
+  });
+})
+
 $('#bt_dockerUploadBackup').fileupload({
   dataType: 'json',
   replaceFileInput: false,

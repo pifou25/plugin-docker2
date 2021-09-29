@@ -97,7 +97,6 @@ class docker2 extends eqLogic {
       }
    }
 
-
    public static function pull($_docker_number = 1) {
       $dockers = self::execCmd(system::getCmdSudo() . ' docker ps -a', $_docker_number);
       if (isset($dockers['Command'])) {
@@ -195,7 +194,32 @@ class docker2 extends eqLogic {
       return $return;
    }
 
-
+   public static function getTemplate($_template = '') {
+      $return = array();
+      foreach (ls(dirname(__FILE__) . '/../config/template', '*') as $dir) {
+         $path = dirname(__FILE__) . '/../config/template/' . $dir;
+         if (!is_dir($path)) {
+            continue;
+         }
+         $files = ls($path, '*.json', false, array('files', 'quiet'));
+         foreach ($files as $file) {
+            try {
+               $content = is_json(file_get_contents($path . '/' . $file), false);
+               if ($content != false) {
+                  $return[str_replace('.json', '', $file)] = $content;
+               }
+            } catch (Exception $e) {
+            }
+         }
+      }
+      if (isset($_template) && $_template != '') {
+         if (isset($return[$_template])) {
+            return $return[$_template];
+         }
+         return array();
+      }
+      return $return;
+   }
 
    /*     * *********************Méthodes d'instance************************* */
 
@@ -471,6 +495,16 @@ class docker2Cmd extends cmd {
 
 
    /*     * *********************Methode d'instance************************* */
+
+   public function formatValueWidget($_value) {
+      if ($this->getLogicalId() != 'state') {
+         return $_value;
+      }
+      if ($_value == 'running') {
+         return '<span class="icon_green">' . $_value . '<span>';
+      }
+      return $_value;
+   }
 
 
    public function execute($_options = array()) {
