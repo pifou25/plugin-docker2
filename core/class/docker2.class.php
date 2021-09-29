@@ -265,7 +265,7 @@ class docker2 extends eqLogic {
       if (!is_object($cmd)) {
          $cmd = new docker2Cmd();
          $cmd->setLogicalId('remove');
-         $cmd->setName(__('Supprimmer', __FILE__));
+         $cmd->setName(__('Supprimer', __FILE__));
       }
       $cmd->setDisplay('icon', '<i class="fas fa-trash"></i>');
       $cmd->setType('action');
