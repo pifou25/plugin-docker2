@@ -236,20 +236,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 									<span class="eqLogicAttr tooltips label label-default" data-l1key="configuration" data-l2key="image" style="font-size : 1em"></span>
 								</div>
 							</div>
-							<br /><br />
-							<div class="form-group">
-								<div class="text-center">
-									<img name="icon_visu" src="<?= $plugin->getPathImgIcon(); ?>" style="max-width:160px;" />
-								</div>
-							</div>
 						</div>
 					</fieldset>
 				</form>
 				<hr>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="commandtab">
-				<a class="btn btn-default btn-sm pull-right cmdAction" data-action="add" style="margin-top:5px;"><i class="fas fa-plus-circle"></i> {{Ajouter une commande}}</a>
-				<br /><br />
 				<div class="table-responsive">
 					<table id="table_cmd" class="table table-bordered table-condensed">
 						<thead>
