@@ -379,15 +379,14 @@ class docker2 extends eqLogic {
          $cmd->setSubType('other');
          $cmd->setEqLogic_id($this->getId());
          $cmd->save();
+         if ($this->getIsEnable() == 1 && $this->getLogicalId() == '') {
+            $this->create();
+         }
       } else {
          $cmd = $this->getCmd(null, 'receate');
          if (is_object($cmd)) {
             $cmd->remove();
          }
-      }
-
-      if ($this->getLogicalId() == '') {
-         $this->create();
       }
    }
 
@@ -487,9 +486,9 @@ class docker2 extends eqLogic {
    public function applyTemplate($_template, $_values) {
       $template = docker2::getTemplate($_template);
       if (isset($template['docker-compose'])) {
-         $docker_compose = file_get_contents(__DIR__ . '/../config/template/' . $template['docker-compose']);
+         $docker_compose = file_get_contents(__DIR__ . '/../config/template/' . $template['docker-compose']['file']);
          if ($docker_compose == '') {
-            throw new Exception(__('Erreur lors de la récuperation du docker compose : ', __FILE__) . $template['docker-compose']);
+            throw new Exception(__('Erreur lors de la récuperation du docker compose : ', __FILE__) . $template['docker-compose']['file']);
          }
       }
       $this->import($template['eqLogic'], true);
