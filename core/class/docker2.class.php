@@ -138,12 +138,12 @@ class docker2 extends eqLogic {
          $eqLogic->checkAndUpdateCmd('memory', (float) $docker_stat['MemPerc']);
 
          $net = explode('/', $docker_stat['NetIO']);
-         $eqLogic->checkAndUpdateCmd('net_in', round((self::convertToUnit($net[0], 'M') - $eqLogic->getCache('stats::net_in', 0)) / (strtotime('now') - $eqLogic->getCache('stats::datetime', 0)), 2));
-         $eqLogic->checkAndUpdateCmd('net_out', round((self::convertToUnit($net[1], 'M') - $eqLogic->getCache('stats::net_out', 0)) / (strtotime('now') - $eqLogic->getCache('stats::datetime', 0)), 2));
+         $eqLogic->checkAndUpdateCmd('net_in', self::calculRate(self::convertToUnit($net[0], 'M'), $eqLogic->getCache('stats::net_in', 0), $eqLogic->getCache('stats::datetime', 0)));
+         $eqLogic->checkAndUpdateCmd('net_out', self::calculRate(self::convertToUnit($net[1], 'M'), $eqLogic->getCache('stats::net_out', 0), $eqLogic->getCache('stats::datetime', 0)));
 
          $io = explode('/', $docker_stat['BlockIO']);
-         $eqLogic->checkAndUpdateCmd('io_in', round((self::convertToUnit($io[1], 'M') - $eqLogic->getCache('stats::io_in', 0)) / (strtotime('now') - $eqLogic->getCache('stats::datetime', 0)), 2));
-         $eqLogic->checkAndUpdateCmd('io_out', round((self::convertToUnit($io[1], 'M') - $eqLogic->getCache('stats::io_out', 0)) / (strtotime('now') - $eqLogic->getCache('stats::datetime', 0)), 2));
+         $eqLogic->checkAndUpdateCmd('io_in', self::calculRate(self::convertToUnit($io[1], 'M'), $eqLogic->getCache('stats::io_in', 0), $eqLogic->getCache('stats::datetime', 0)));
+         $eqLogic->checkAndUpdateCmd('io_out', self::calculRate(self::convertToUnit($io[1], 'M'), $eqLogic->getCache('stats::io_out', 0), $eqLogic->getCache('stats::datetime', 0)));
 
          $eqLogic->setCache(
             array(
@@ -168,6 +168,14 @@ class docker2 extends eqLogic {
          $eqLogic->checkAndUpdateCmd('io_in', 0);
          $eqLogic->checkAndUpdateCmd('io_out', 0);
       }
+   }
+
+   public static function calculRate($_previous, $_current, $_datetime) {
+      $result =  round(($_current - $_previous) / (strtotime('now') - $_datetime), 2);
+      if ($result < 0) {
+         return 0;
+      }
+      return $result;
    }
 
    public static function convertToUnit($_string, $_unit) {
@@ -265,7 +273,7 @@ class docker2 extends eqLogic {
       if (!is_object($cmd)) {
          $cmd = new docker2Cmd();
          $cmd->setLogicalId('remove');
-         $cmd->setName(__('Supprimmer', __FILE__));
+         $cmd->setName(__('Supprimer', __FILE__));
       }
       $cmd->setDisplay('icon', '<i class="fas fa-trash"></i>');
       $cmd->setType('action');
