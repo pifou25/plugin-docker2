@@ -175,6 +175,9 @@ class docker2 extends eqLogic {
       if ($result < 0) {
          return 0;
       }
+      if (is_nan($result)) {
+         return 0;
+      }
       return $result;
    }
 
