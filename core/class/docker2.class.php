@@ -64,7 +64,6 @@ class docker2 extends eqLogic {
    }
 
    public static function backup() {
-
       foreach (eqLogic::byType('docker2', true) as $eqLogic) {
          if ($eqLogic->getConfiguration('saveMount') == 0) {
             continue;
