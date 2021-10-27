@@ -198,11 +198,13 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<legend><i class="fas fa-info"></i> {{Informations}}</legend>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">{{ID}}</label>
-								<div class="col-sm-3">
+								<div class="col-sm-9">
 									<span class="eqLogicAttr tooltips label label-default" data-l1key="configuration" data-l2key="id" style="font-size : 1em"></span>
 								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-3 control-label">{{Commande}}</label>
-								<div class="col-sm-3">
+								<div class="col-sm-9">
 									<span class="eqLogicAttr tooltips label label-default" data-l1key="configuration" data-l2key="command" style="font-size : 1em"></span>
 								</div>
 							</div>
