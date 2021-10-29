@@ -443,6 +443,7 @@ class docker2 extends eqLogic {
       $this->setLogicalId($this->getConfiguration('docker_number', 1) . '::' . $this->getConfiguration('name'));
       $this->setConfiguration('docker_number', $this->getConfiguration('docker_number', 1));
       $this->save(true);
+      self::pull();
    }
 
    public function rm() {

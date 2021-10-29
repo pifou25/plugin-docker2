@@ -2,6 +2,7 @@ version: "3.7"
 services:
   node-red:
     image: nodered/node-red:latest
+    container_name: nodered
     environment:
       - TZ=Europe/Paris
     ports:
