@@ -512,13 +512,19 @@ class docker2 extends eqLogic {
       if (isset($template['url'])) {
          $this->setConfiguration('url_access', str_replace(array_keys($replace), $replace, $template['url']));
       }
+      try {
+         $this->rm();
+         sleep(2);
+      } catch (\Throwable $th) {
+      }
       if (isset($template['docker-compose'])) {
          $this->setConfiguration('create::compose', str_replace(array_keys($replace), $replace, $docker_compose));
-         $this->save();
+         $this->save(true);
       } else {
          $this->setConfiguration('create::run', str_replace(array_keys($replace), $replace, $this->getConfiguration('create::run')));
-         $this->save();
+         $this->save(true);
       }
+      $this->create();
       if (isset($template['script']) && file_exists(__DIR__ . '/../config/template/' . $template['script'])) {
          require_once __DIR__ . '/../config/template/' . $template['script'];
          $function = $_template . '_post';
