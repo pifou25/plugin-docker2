@@ -1,0 +1,16 @@
+{
+    "eqLogic" : {
+        "configuration":{
+            "name":"nodered",
+            "create::mode":"jeedom_compose",
+            "saveMount":1
+        }
+    },
+    "description" : "Docker pour installer nodered, vous pouvez à l'aide du plugin MQTT piloter Jeedom depuis Nodered",
+    "configuration":{
+        "NODERED_PORT" : {"type":"number","name":"Port Nodered","default":"1880"}
+    },
+    "docker-compose" : {
+        "file" : "nodered/nodered.compose"
+    }
+}
