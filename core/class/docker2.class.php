@@ -508,12 +508,20 @@ class docker2 extends eqLogic {
       foreach ($_values as $key => $value) {
          $replace['#' . $key . '#'] = $value;
       }
+      $this->setIsEnable(1);
       if (isset($template['docker-compose'])) {
          $this->setConfiguration('create::compose', str_replace(array_keys($replace), $replace, $docker_compose));
          $this->save();
       } else {
          $this->setConfiguration('create::run', str_replace(array_keys($replace), $replace, $this->getConfiguration('create::run')));
          $this->save();
+      }
+      if (isset($template['script']) && file_exists(__DIR__ . '/../config/template/' . $template['script'])) {
+         require_once __DIR__ . '/../config/template/' . $template['script'];
+         $function = $_template . '_post';
+         if (function_exists($_template . '_post')) {
+            $function($this, $_values);
+         }
       }
    }
 
