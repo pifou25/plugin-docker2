@@ -53,6 +53,7 @@ class docker2 extends eqLogic {
          stream_set_blocking($stream, true);
          $output =  stream_get_contents($stream);
       }
+
       if (strpos($_format, "json") !== false) {
          $return = array();
          foreach ($output as $line) {
@@ -64,7 +65,6 @@ class docker2 extends eqLogic {
    }
 
    public static function backup() {
-
       foreach (eqLogic::byType('docker2', true) as $eqLogic) {
          if ($eqLogic->getConfiguration('saveMount') == 0) {
             continue;
@@ -173,6 +173,9 @@ class docker2 extends eqLogic {
    public static function calculRate($_previous, $_current, $_datetime) {
       $result =  round(($_current - $_previous) / (strtotime('now') - $_datetime), 2);
       if ($result < 0) {
+         return 0;
+      }
+      if (is_nan($result)) {
          return 0;
       }
       return $result;
@@ -447,7 +450,7 @@ class docker2 extends eqLogic {
    }
 
    public function logs() {
-      return self::execCmd(system::getCmdSudo() . ' docker logs -t -n 100 ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
+      return self::execCmd(system::getCmdSudo() . ' docker logs -t -n 100 ' . $this->getConfiguration('id') . ' 2>&1', $this->getConfiguration('docker_number'), null);
    }
 
    public function inspect() {
