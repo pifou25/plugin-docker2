@@ -509,6 +509,9 @@ class docker2 extends eqLogic {
          $replace['#' . $key . '#'] = $value;
       }
       $this->setIsEnable(1);
+      if (isset($template['url'])) {
+         $this->setConfiguration('url_access', str_replace(array_keys($replace), $replace, $template['url']));
+      }
       if (isset($template['docker-compose'])) {
          $this->setConfiguration('create::compose', str_replace(array_keys($replace), $replace, $docker_compose));
          $this->save();

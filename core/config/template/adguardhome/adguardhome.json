@@ -9,5 +9,6 @@
     "description" : "Docker pour avoir un DNS local qui bloque les publicité et le tracking.",
     "configuration":{
         "UI_PORT" : {"type":"number","name":"Port UI","default":"3000"}
-    }
+    },
+    "url" : "http://#internal#:#UI_PORT#"
 }

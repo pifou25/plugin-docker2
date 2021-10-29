@@ -16,5 +16,6 @@
     },
     "docker-compose" : {
         "file" : "wg-easy/wg-easy.compose"
-    }
+    },
+    "url" : "http://#internal#:#UI_PORT#"
 }

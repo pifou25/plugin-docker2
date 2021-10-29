@@ -6,6 +6,7 @@ if (!isConnect('admin')) {
 $plugin = plugin::byId('docker2');
 sendVarToJS('eqType', $plugin->getId());
 $eqLogics = eqLogic::byType($plugin->getId());
+sendVarToJS('docker2_internal_ip', network::getNetworkAccess('internal', 'ip'));
 ?>
 
 <div class="row row-overflow">
@@ -238,6 +239,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<label class="col-sm-3 control-label">{{Image}}</label>
 								<div class="col-sm-9">
 									<span class="eqLogicAttr tooltips label label-default" data-l1key="configuration" data-l2key="image" style="font-size : 1em"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">{{Accès}}</label>
+								<div class="col-sm-9">
+									<a target="_blank" id="link_dockerUrl" style="font-size : 1em">Test</a>
 								</div>
 							</div>
 						</div>
