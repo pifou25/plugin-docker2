@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --no-tty --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --no-tty --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 arch=`dpkg --print-architecture`;
 if [[ $arch == "armhf" ]]; then 
