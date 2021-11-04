@@ -177,7 +177,7 @@ sendVarToJS('docker2_internal_ip', network::getNetworkAccess('internal', 'ip'));
 							</div>
 							<div class="form-group create_mode jeedom_compose">
 								<label class="col-sm-3 control-label">{{Docker compose}}</label>
-								<div class="col-sm-7">
+								<div class="col-sm-9">
 									<textarea rows="20" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="create::compose"></textarea>
 								</div>
 							</div>
