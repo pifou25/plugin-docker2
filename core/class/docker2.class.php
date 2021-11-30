@@ -460,7 +460,7 @@ class docker2 extends eqLogic {
 
    public function backupDocker() {
       if ($this->getConfiguration('saveMount') == 0) {
-         throw new Exception(__('Ce docker n\'est pas sauvegarder', __FILE__));
+         throw new Exception(__('Ce docker n\'est pas sauvegardé', __FILE__));
       }
       $folder = __DIR__ . '/../../data/backup';
       if (!file_exists($folder)) {

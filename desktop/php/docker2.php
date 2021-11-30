@@ -36,7 +36,7 @@ sendVarToJS('docker2_internal_ip', network::getNetworkAccess('internal', 'ip'));
 				<span class="txtColor">{{Code}}</span>
 			</div>
 		</div>
-		<legend><i class="fas fa-table"></i> {{Mes templates}}</legend>
+		<legend><i class="fas fa-table"></i> {{Mes Dockers}}</legend>
 		<?php
 		if (count($eqLogics) == 0) {
 			echo '<br/><div class="text-center" style="font-size:1.2em;font-weight:bold;">{{Aucun équipement Template n\'est paramétré, cliquer sur "Ajouter" pour commencer}}</div>';
