@@ -73,7 +73,7 @@ class docker2 extends eqLogic {
       }
    }
 
-   public static function restoreDocker($_filepath) {
+   public static function restoreDockerFile($_filepath) {
       if (!file_exists($_filepath)) {
          throw new Exception(__('Fichier de backup non trouvé : ', __FILE__) . $_filepath);
       }
@@ -491,7 +491,7 @@ class docker2 extends eqLogic {
       if (!file_exists($filepath)) {
          throw new Exception(__('Aucune sauvegarde trouvée pour ce docker', __FILE__));
       }
-      self::restoreDocker($filepath);
+      self::restoreDockerFile($filepath);
       $this->restart();
    }
 
