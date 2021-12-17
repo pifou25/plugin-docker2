@@ -483,7 +483,7 @@ class docker2 extends eqLogic {
       }
    }
 
-   public function restore() {
+   public function restoreDocker() {
       if ($this->getConfiguration('saveMount') == 0) {
          throw new Exception(__('Ce docker n\'est pas sauvegarder', __FILE__));
       }

@@ -52,7 +52,7 @@ try {
     if (!is_object($eqLogic)) {
       throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
     }
-    ajax::success($eqLogic->restore());
+    ajax::success($eqLogic->restoreDocker());
   }
 
   if (init('action') == 'backupupload') {
