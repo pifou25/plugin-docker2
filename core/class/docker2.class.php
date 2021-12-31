@@ -390,6 +390,18 @@ class docker2 extends eqLogic {
          $cmd->setSubType('other');
          $cmd->setEqLogic_id($this->getId());
          $cmd->save();
+
+         $cmd = $this->getCmd(null, 'update');
+         if (!is_object($cmd)) {
+            $cmd = new docker2Cmd();
+            $cmd->setLogicalId('update');
+            $cmd->setName(__('Mettre à jour', __FILE__));
+         }
+         $cmd->setDisplay('icon', '<i class="fas fa-retweet"></i>');
+         $cmd->setType('action');
+         $cmd->setSubType('other');
+         $cmd->setEqLogic_id($this->getId());
+         $cmd->save();
          if ($this->getIsEnable() == 1 && $this->getLogicalId() == '') {
             $this->create();
          }
@@ -551,10 +563,15 @@ class docker2Cmd extends cmd {
          $eqLogic->restart();
       } else if ($this->getLogicalId() == 'receate') {
          $eqLogic->rm();
-         sleep(5);
+         sleep(2);
          $eqLogic->create();
       } else if ($this->getLogicalId() == 'remove') {
          $eqLogic->rm();
+      } else if ($this->getLogicalId() == 'update') {
+         $eqLogic->rm();
+         sleep(2);
+         docker2::execCmd(system::getCmdSudo() . ' docker rmi ' . $eqLogic->getConfiguration('image') . ' 2>&1', $eqLogic->getConfiguration('docker_number'), null);
+         $eqLogic->create();
       }
       docker2::pull();
    }
