@@ -13,7 +13,7 @@
         "Template non trouvé : ": "Template not found:",
         "Description": "Description",
         "Paramètres": "Settings",
-        "Actions": "Actions",
+        "Actions": "Shares",
         "Valider": "To validate"
     },
     "plugins\/docker2\/desktop\/modal\/logs.docker.php": {
@@ -44,12 +44,12 @@
         "Options": "Options",
         "Activer": "Activate",
         "Visible": "Visible",
-        "Docker host": "Docker host",
+        "Docker host": "Dockerhost",
         "Nom du conteneur": "Container name",
         "Sauvegarder les mount": "Save the mounts",
         "Mode de création": "Creation mode",
         "Manuel": "Manual",
-        "Jeedom docker run": "Jeedom docker run",
+        "Jeedom docker run": "Jeedom dockerrun",
         "Jeedom docker compose": "Jeedom docker composes",
         "Commande de création": "Creation order",
         "Docker compose": "Docker composes",
@@ -69,7 +69,7 @@
         "Montages": "Assemblies",
         "Image": "Picture",
         "Accès": "Access",
-        "Id": "Id",
+        "Id": "ID",
         "Nom": "Name",
         "Type": "Type",
         "Paramètres": "Settings"
@@ -77,7 +77,7 @@
     "plugins\/docker2\/desktop\/js\/docker2.js": {
         "Logs": "Logs",
         "Nom du template ?": "Template name?",
-        "Assistants": "Assistants",
+        "Assistants": "Wizards",
         "Fichier(s) ajouté(s) avec succès": "File (s) added successfully",
         "Operation realisée avec succes": "Operation successfully completed",
         "Etes vous sur de vouloir restaurer le dernier backup de ce docker ?": "Are you sure you want to restore the last backup of this docker?",
