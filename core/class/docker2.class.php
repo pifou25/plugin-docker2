@@ -401,15 +401,15 @@ class docker2 extends eqLogic {
       }
    }
 
-   public function stop() {
+   public function stopDocker() {
       self::execCmd(system::getCmdSudo() . ' docker stop ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
    }
 
-   public function start() {
+   public function startDocker() {
       self::execCmd(system::getCmdSudo() . ' docker start ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
    }
 
-   public function restart() {
+   public function restartDocker() {
       self::execCmd(system::getCmdSudo() . ' docker restart ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
    }
 
@@ -492,7 +492,7 @@ class docker2 extends eqLogic {
          throw new Exception(__('Aucune sauvegarde trouvée pour ce docker', __FILE__));
       }
       self::restoreDockerFile($filepath);
-      $this->restart();
+      $this->restartDocker();
    }
 
    public function applyTemplate($_template, $_values) {
@@ -562,11 +562,11 @@ class docker2Cmd extends cmd {
       }
       $eqLogic = $this->getEqLogic();
       if ($this->getLogicalId() == 'start') {
-         $eqLogic->start();
+         $eqLogic->startDocker();
       } else if ($this->getLogicalId() == 'stop') {
-         $eqLogic->stop();
+         $eqLogic->stopDocker();
       } else if ($this->getLogicalId() == 'restart') {
-         $eqLogic->restart();
+         $eqLogic->restartDocker();
       } else if ($this->getLogicalId() == 'receate') {
          $eqLogic->rm();
          sleep(5);
