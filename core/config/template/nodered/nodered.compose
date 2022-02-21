@@ -7,6 +7,7 @@ services:
       - TZ=Europe/Paris
     ports:
       - "#NODERED_PORT#:1880"
+    restart: always
     volumes:
       - node-red-data:/data
 volumes:
