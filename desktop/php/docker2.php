@@ -6,6 +6,7 @@ if (!isConnect('admin')) {
 $plugin = plugin::byId('docker2');
 sendVarToJS('eqType', $plugin->getId());
 $eqLogics = eqLogic::byType($plugin->getId());
+sendVarToJS('docker2_internal_ip', network::getNetworkAccess('internal', 'ip'));
 ?>
 
 <div class="row row-overflow">
@@ -35,7 +36,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 				<span class="txtColor">{{Code}}</span>
 			</div>
 		</div>
-		<legend><i class="fas fa-table"></i> {{Mes templates}}</legend>
+		<legend><i class="fas fa-table"></i> {{Mes Dockers}}</legend>
 		<?php
 		if (count($eqLogics) == 0) {
 			echo '<br/><div class="text-center" style="font-size:1.2em;font-weight:bold;">{{Aucun équipement Template n\'est paramétré, cliquer sur "Ajouter" pour commencer}}</div>';
@@ -176,7 +177,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 							<div class="form-group create_mode jeedom_compose">
 								<label class="col-sm-3 control-label">{{Docker compose}}</label>
-								<div class="col-sm-7">
+								<div class="col-sm-9">
 									<textarea rows="20" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="create::compose"></textarea>
 								</div>
 							</div>
@@ -238,6 +239,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<label class="col-sm-3 control-label">{{Image}}</label>
 								<div class="col-sm-9">
 									<span class="eqLogicAttr tooltips label label-default" data-l1key="configuration" data-l2key="image" style="font-size : 1em"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">{{Accès}}</label>
+								<div class="col-sm-9">
+									<a target="_blank" id="link_dockerUrl" style="font-size : 1em">Test</a>
 								</div>
 							</div>
 						</div>

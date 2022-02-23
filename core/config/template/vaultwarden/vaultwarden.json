@@ -10,5 +10,6 @@
     "description" : "Docker pour avoir utiliser Bitwarden avec un serveur local",
     "configuration":{
         "UI_PORT" : {"type":"number","name":"Port UI","default":"3080"}
-    }
+    },
+    "url" : "http://#internal#:#UI_PORT#"
 }

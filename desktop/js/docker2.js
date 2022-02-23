@@ -15,6 +15,14 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+function printEqLogic(_eqLogic) {
+  console.log(_eqLogic);
+  if(_eqLogic.configuration && _eqLogic.configuration.url_access){
+    $('#link_dockerUrl').attr('href',_eqLogic.configuration.url_access.replace('#INTERNAL#', docker2_internal_ip));
+    $('#link_dockerUrl').text(_eqLogic.configuration.url_access.replace('#INTERNAL#', docker2_internal_ip));
+  }
+}
+
 $('#bt_editConfigFile').off('click').on('click', function() {
   jeedomUtils.loadPage('index.php?v=d&p=editor&root=plugins/docker2/data/config')
 })
