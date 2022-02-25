@@ -5,5 +5,5 @@ function nodered_post($_eqLogic, $_values) {
     $password = trim(shell_exec('sudo docker exec nodered  node -e "console.log(require(\'bcryptjs\').hashSync(process.argv[1], 8));" ' . escapeshellarg($_values['PASSWORD'])));
     $cmd = 'sudo sed -i \'/\/\/adminAuth: {/i adminAuth: {type: "credentials",users: [{username: "admin",password: "' . $password . '",permissions: "*"}]},\' ' . $file;
     shell_exec($cmd);
-    $_eqLogic->restart();
+    $_eqLogic->restartDocker();
 }
