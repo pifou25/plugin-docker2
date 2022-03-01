@@ -32,7 +32,9 @@ class docker2 extends eqLogic {
             $_cmd .= ' --no-trunc';
          }
       }
-      $cmd .= ' 2>&1';
+      if (strpos($_cmd, ' 2>&1') === false) {
+         $_cmd .= ' 2>&1';
+      }
       $config = config::byKey('docker_config_' . $_docker_number, 'docker2');
       if ($config['mode'] == 'local') {
          $output = null;
