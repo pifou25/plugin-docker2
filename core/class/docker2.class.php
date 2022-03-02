@@ -465,7 +465,7 @@ class docker2 extends eqLogic {
       if ($this->getConfiguration('saveMount') == 0) {
          throw new Exception(__('Ce docker n\'est pas sauvegardé', __FILE__));
       }
-      $folder = __DIR__ . '/../../data/backup';
+      $folder = __DIR__ . '/../../data/mountsBackup';
       if (!file_exists($folder)) {
          mkdir($folder);
       }
@@ -490,7 +490,7 @@ class docker2 extends eqLogic {
       if ($this->getConfiguration('saveMount') == 0) {
          throw new Exception(__('Ce docker n\'est pas sauvegarder', __FILE__));
       }
-      $filepath = __DIR__ . '/../../data/backup/' . $this->getId() . '.tar.gz';
+      $filepath = __DIR__ . '/../../data/mountsBackup/' . $this->getId() . '.tar.gz';
       if (!file_exists($filepath)) {
          throw new Exception(__('Aucune sauvegarde trouvée pour ce docker', __FILE__));
       }
