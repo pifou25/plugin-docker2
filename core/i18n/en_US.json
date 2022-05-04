@@ -53,7 +53,7 @@
         "Jeedom docker compose": "Jeedom docker composes",
         "Commande de création": "Creation order",
         "Docker compose": "Docker composes",
-        "Action": "Action",
+        "Action": "Stock",
         "Sauvegarder le docker": "Save the docker",
         "Restaurer le docker": "Restore docker",
         "Télécharger sauvegarde": "Download backup",
@@ -71,7 +71,7 @@
         "Accès": "Access",
         "Id": "ID",
         "Nom": "Name",
-        "Type": "Type",
+        "Type": "Kind",
         "Paramètres": "Settings"
     },
     "plugins\/docker2\/desktop\/js\/docker2.js": {
