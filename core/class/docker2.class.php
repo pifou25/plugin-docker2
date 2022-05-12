@@ -26,6 +26,9 @@ class docker2 extends eqLogic {
    /*     * ***********************Methode static*************************** */
 
    public static function execCmd($_cmd, $_docker_number = 1, $_format = "{{json . }}", $_notrunc = true) {
+      if ($_cmd == '') {
+         return '';
+      }
       if ($_format != '') {
          $_cmd .= ' --format "' . $_format . '"';
          if ($_notrunc != '') {
