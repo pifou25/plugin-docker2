@@ -453,14 +453,23 @@ class docker2 extends eqLogic {
    }
 
    public function rm() {
+      if($this->getConfiguration('id') == ''){
+       return;  
+      }
       self::execCmd(system::getCmdSudo() . ' docker rm -f ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
    }
 
    public function logs() {
+       if($this->getConfiguration('id') == ''){
+       return;  
+      }
       return self::execCmd(system::getCmdSudo() . ' docker logs -t -n 100 ' . $this->getConfiguration('id') . ' 2>&1', $this->getConfiguration('docker_number'), null);
    }
 
    public function inspect() {
+       if($this->getConfiguration('id') == ''){
+       return;  
+      }
       return self::execCmd(system::getCmdSudo() . ' docker inspect ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), '{{json . }}', false);
    }
 
