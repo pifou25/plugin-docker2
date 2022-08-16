@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  node-red:
+    image: nodered/node-red:latest
+    container_name: nodered
+    environment:
+      - TZ=Europe/Paris
+    ports:
+      - "#NODERED_PORT#:1880"
+    restart: always
+    volumes:
+      - node-red-data:/data
+volumes:
+  node-red-data:

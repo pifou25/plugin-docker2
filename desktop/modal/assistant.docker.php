@@ -117,6 +117,7 @@ if (count($template) == 0) {
                     });
                     return;
                 }
+                window.location.reload();
             }
         });
     })

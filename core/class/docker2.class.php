@@ -73,7 +73,7 @@ class docker2 extends eqLogic {
       }
    }
 
-   public static function restoreDocker($_filepath) {
+   public static function restoreDockerFile($_filepath) {
       if (!file_exists($_filepath)) {
          throw new Exception(__('Fichier de backup non trouvé : ', __FILE__) . $_filepath);
       }
@@ -413,15 +413,15 @@ class docker2 extends eqLogic {
       }
    }
 
-   public function stop() {
+   public function stopDocker() {
       self::execCmd(system::getCmdSudo() . ' docker stop ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
    }
 
-   public function start() {
+   public function startDocker() {
       self::execCmd(system::getCmdSudo() . ' docker start ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
    }
 
-   public function restart() {
+   public function restartDocker() {
       self::execCmd(system::getCmdSudo() . ' docker restart ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
    }
 
@@ -455,6 +455,7 @@ class docker2 extends eqLogic {
       $this->setLogicalId($this->getConfiguration('docker_number', 1) . '::' . $this->getConfiguration('name'));
       $this->setConfiguration('docker_number', $this->getConfiguration('docker_number', 1));
       $this->save(true);
+      self::pull();
    }
 
    public function rm() {
@@ -471,7 +472,7 @@ class docker2 extends eqLogic {
 
    public function backupDocker() {
       if ($this->getConfiguration('saveMount') == 0) {
-         throw new Exception(__('Ce docker n\'est pas sauvegarder', __FILE__));
+         throw new Exception(__('Ce docker n\'est pas sauvegardé', __FILE__));
       }
       $folder = __DIR__ . '/../../data/backup';
       if (!file_exists($folder)) {
@@ -494,7 +495,7 @@ class docker2 extends eqLogic {
       }
    }
 
-   public function restore() {
+   public function restoreDocker() {
       if ($this->getConfiguration('saveMount') == 0) {
          throw new Exception(__('Ce docker n\'est pas sauvegarder', __FILE__));
       }
@@ -502,8 +503,8 @@ class docker2 extends eqLogic {
       if (!file_exists($filepath)) {
          throw new Exception(__('Aucune sauvegarde trouvée pour ce docker', __FILE__));
       }
-      self::restoreDocker($filepath);
-      $this->restart();
+      self::restoreDockerFile($filepath);
+      $this->restartDocker();
    }
 
    public function applyTemplate($_template, $_values) {
@@ -519,12 +520,29 @@ class docker2 extends eqLogic {
       foreach ($_values as $key => $value) {
          $replace['#' . $key . '#'] = $value;
       }
+      $this->setIsEnable(1);
+      if (isset($template['url'])) {
+         $this->setConfiguration('url_access', str_replace(array_keys($replace), $replace, $template['url']));
+      }
+      try {
+         $this->rm();
+         sleep(2);
+      } catch (\Throwable $th) {
+      }
       if (isset($template['docker-compose'])) {
          $this->setConfiguration('create::compose', str_replace(array_keys($replace), $replace, $docker_compose));
-         $this->save();
+         $this->save(true);
       } else {
          $this->setConfiguration('create::run', str_replace(array_keys($replace), $replace, $this->getConfiguration('create::run')));
-         $this->save();
+         $this->save(true);
+      }
+      $this->create();
+      if (isset($template['script']) && file_exists(__DIR__ . '/../config/template/' . $template['script'])) {
+         require_once __DIR__ . '/../config/template/' . $template['script'];
+         $function = $_template . '_post';
+         if (function_exists($_template . '_post')) {
+            $function($this, $_values);
+         }
       }
    }
 
@@ -556,11 +574,11 @@ class docker2Cmd extends cmd {
       }
       $eqLogic = $this->getEqLogic();
       if ($this->getLogicalId() == 'start') {
-         $eqLogic->start();
+         $eqLogic->startDocker();
       } else if ($this->getLogicalId() == 'stop') {
-         $eqLogic->stop();
+         $eqLogic->stopDocker();
       } else if ($this->getLogicalId() == 'restart') {
-         $eqLogic->restart();
+         $eqLogic->restartDocker();
       } else if ($this->getLogicalId() == 'receate') {
          $eqLogic->rm();
          sleep(2);
