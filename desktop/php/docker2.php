@@ -69,7 +69,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 		<div class="input-group pull-right" style="display:inline-flex;">
 			<span class="input-group-btn">
 				<!-- Les balises <a></a> sont volontairement fermées à la ligne suivante pour éviter les espaces entre les boutons. Ne pas modifier -->
-				<a class="btn btn-sm btn-default" id="bt_docker2Assistant"><i class="fas fa-people-carry"></i><span class="hidden-xs"> {{Assistant}}</span>
+				<a class="btn btn-sm btn-default roundedLeft" id="bt_docker2Assistant"><i class="fas fa-people-carry"></i><span class="hidden-xs"> {{Assistant}}</span>
 				</a><a class="btn btn-sm btn-default eqLogicAction" data-action="configure"><i class="fas fa-cogs"></i><span class="hidden-xs"> {{Configuration avancée}}</span>
 				</a><a class="btn btn-sm btn-default eqLogicAction" data-action="copy"><i class="fas fa-copy"></i><span class="hidden-xs"> {{Dupliquer}}</span>
 				</a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}
@@ -185,15 +185,16 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
 							<legend><i class="fas fa-exclamation"></i> {{Action}}</legend>
 							<center>
-								<span class="input-group-btn">
-									<a class="btn btn-sm btn-success roundedLeft" id="bt_dockerBackup"><i class="fas fa-save"></i><span class="hidden-xs"> {{Sauvegarder le docker}}</span>
-									</a><a class="btn btn-sm btn-warning" id="bt_dockerRestore"><i class="fas fa-database"></i><span class="hidden-xs"> {{Restaurer le docker}}</span>
-									</a><a class="btn btn-sm btn-default" id="bt_dockerDownloadBackup"><i class="fas fa-download"></i><span class="hidden-xs"> {{Télécharger sauvegarde}}</span>
-									</a><span class="btn btn-default btn-file" style="height: 28px;line-height: 14px">
-										<i class="fas fa-upload"></i> {{Envoyer sauvegarde}}<input id="bt_dockerUploadBackup" type="file" name="file" data-url="plugins/docker2/core/ajax/docker2.ajax.php?action=backupupload">
-									</span><a class="btn btn-sm btn-default" id="bt_dockerLog"><i class="far fa-file"></i><span class="hidden-xs"> {{Logs docker}}</span>
-									</a>
-								</span>
+								<div class="input-group" style="display:inline-flex;">
+									<span class="input-group-btn">
+										<a class="btn btn-sm btn-success roundedLeft" id="bt_dockerBackup"><i class="fas fa-save"></i><span class="hidden-xs"> {{Sauvegarder le docker}}</span>
+										</a><a class="btn btn-sm btn-warning" id="bt_dockerRestore"><i class="fas fa-database"></i><span class="hidden-xs"> {{Restaurer le docker}}</span>
+										</a><a class="btn btn-sm btn-default" id="bt_dockerDownloadBackup"><i class="fas fa-download"></i><span class="hidden-xs"> {{Télécharger sauvegarde}}</span>
+										</a><span class="btn btn-default btn-file" style="height: 28px;line-height: 14px"><i class="fas fa-upload"></i> {{Envoyer sauvegarde}}<input id="bt_dockerUploadBackup" type="file" name="file" data-url="plugins/docker2/core/ajax/docker2.ajax.php?action=backupupload">
+										</span><a class="btn btn-sm btn-default roundedRight" id="bt_dockerLog"><i class="far fa-file"></i><span class="hidden-xs"> {{Logs docker}}</span>
+										</a>
+									</span>
+								</div>
 							</center>
 							<legend><i class="fas fa-info"></i> {{Informations}}</legend>
 							<div class="form-group">
@@ -255,6 +256,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<th>{{Type}}</th>
 								<th>{{Paramètres}}</th>
 								<th>{{Options}}</th>
+								<th>{{Etat}}</th>
 								<th>{{Action}}</th>
 							</tr>
 						</thead>
