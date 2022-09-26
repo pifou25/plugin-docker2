@@ -399,8 +399,25 @@ class docker2 extends eqLogic {
          if ($this->getIsEnable() == 1 && $this->getLogicalId() == '') {
             $this->create();
          }
+
+         $cmd = $this->getCmd(null, 'update');
+         if (!is_object($cmd)) {
+            $cmd = new docker2Cmd();
+            $cmd->setLogicalId('update');
+            $cmd->setName(__('Mettreà jour', __FILE__));
+         }
+         $cmd->setDisplay('icon', '<i class="fas fa-spinner"></i>');
+         $cmd->setType('action');
+         $cmd->setSubType('other');
+         $cmd->setEqLogic_id($this->getId());
+         $cmd->save();
       } else {
          $cmd = $this->getCmd(null, 'receate');
+         if (is_object($cmd)) {
+            $cmd->remove();
+         }
+
+         $cmd = $this->getCmd(null, 'update');
          if (is_object($cmd)) {
             $cmd->remove();
          }
@@ -453,24 +470,43 @@ class docker2 extends eqLogic {
    }
 
    public function rm() {
-      if($this->getConfiguration('id') == ''){
-       return;  
+      if ($this->getConfiguration('id') == '') {
+         return;
       }
       self::execCmd(system::getCmdSudo() . ' docker rm -f ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), null);
    }
 
    public function logs() {
-       if($this->getConfiguration('id') == ''){
-       return;  
+      if ($this->getConfiguration('id') == '') {
+         return;
       }
       return self::execCmd(system::getCmdSudo() . ' docker logs -t -n 100 ' . $this->getConfiguration('id') . ' 2>&1', $this->getConfiguration('docker_number'), null);
    }
 
    public function inspect() {
-       if($this->getConfiguration('id') == ''){
-       return;  
+      if ($this->getConfiguration('id') == '') {
+         return;
       }
       return self::execCmd(system::getCmdSudo() . ' docker inspect ' . $this->getConfiguration('id'), $this->getConfiguration('docker_number'), '{{json . }}', false);
+   }
+
+   public function updateImage() {
+      if ($this->getConfiguration('id') == '') {
+         return;
+      }
+      if (!in_array($this->getConfiguration('create::mode'), array('jeedom_run', 'jeedom_compose'))) {
+         throw new Exception(__('La création de ce docker n\'est pas gérée par Jeedom, impossible de mettre à jour l\'image', __FILE__));
+      }
+      $this->stopDocker();
+      sleep(5);
+      $this->rm();
+      sleep(5);
+      $inspect = $this->inspect();
+      self::execCmd(system::getCmdSudo() . ' docker rmi ' . $inspect['Config']['Image'], $this->getConfiguration('docker_number'));
+      sleep(5);
+      $this->create();
+      sleep(5);
+      $this->startDocker();
    }
 
    public function backupDocker() {
@@ -588,6 +624,8 @@ class docker2Cmd extends cmd {
          $eqLogic->create();
       } else if ($this->getLogicalId() == 'remove') {
          $eqLogic->rm();
+      } else if ($this->getLogicalId() == 'update') {
+         $eqLogic->updateImage();
       }
       docker2::pull();
    }
