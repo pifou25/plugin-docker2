@@ -121,7 +121,7 @@
         "Réseaux in": "Redes en",
         "Réseaux out": "Redes fuera",
         "Recréer": "Recrear",
-        "Mettreà jour": "Poner al día",
+        "Mettre à jour": "Poner al día",
         "Vous ne pouvez lancer la création d\\'un docker depuis Jeedom sans commande de création": "No puede iniciar la creación de una ventana acoplable desde Jeedom sin un comando de creación",
         "Il n\\'est pas possible de lancer un contenaire depuis Jeedom sans l\\'option deamon": "No es posible lanzar un contenedor desde Jeedom sin la opción deamon",
         "Vous ne pouvez lancer la création d\\'un docker depuis Jeedom sans docker compose": "No puede iniciar la creación de una ventana acoplable desde Jeedom sin docker compose",
