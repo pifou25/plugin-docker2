@@ -404,7 +404,7 @@ class docker2 extends eqLogic {
          if (!is_object($cmd)) {
             $cmd = new docker2Cmd();
             $cmd->setLogicalId('update');
-            $cmd->setName(__('Mettreà jour', __FILE__));
+            $cmd->setName(__('Mettre à jour', __FILE__));
          }
          $cmd->setDisplay('icon', '<i class="fas fa-spinner"></i>');
          $cmd->setType('action');
@@ -497,12 +497,18 @@ class docker2 extends eqLogic {
       if (!in_array($this->getConfiguration('create::mode'), array('jeedom_run', 'jeedom_compose'))) {
          throw new Exception(__('La création de ce docker n\'est pas gérée par Jeedom, impossible de mettre à jour l\'image', __FILE__));
       }
-      $this->stopDocker();
-      sleep(5);
-      $this->rm();
-      sleep(5);
       $inspect = $this->inspect();
-      self::execCmd(system::getCmdSudo() . ' docker rmi ' . $inspect['Config']['Image'], $this->getConfiguration('docker_number'));
+      try {
+         $this->stopDocker();
+         sleep(5);
+      } catch (\Throwable $th) {
+      }
+      try {
+         $this->rm();
+         sleep(5);
+      } catch (\Throwable $th) {
+      }
+      self::execCmd(system::getCmdSudo() . ' docker rmi ' . $inspect[0]['Config']['Image'], $this->getConfiguration('docker_number'), '');
       sleep(5);
       $this->create();
       sleep(5);
