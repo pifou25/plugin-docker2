@@ -13,7 +13,7 @@
         "Template non trouvé": "Vorlage nicht gefunden",
         "Description": "Beschreibung",
         "Paramètres": "Einstellungen",
-        "Actions": "Anteile",
+        "Actions": "Aktionen",
         "Valider": "Bestätigen"
     },
     "plugins\/docker2\/desktop\/modal\/logs.docker.php": {

@@ -1,6 +1,6 @@
 {
     "plugins\/docker2\/plugin_info\/configuration.php": {
-        "Docker": "Janela de encaixe",
+        "Docker": "Docker",
         "Cocher la case pour activer Docker": "Marque a caixa para habilitar o Docker",
         "Activer": "Ativar",
         "Nom": "Nome",

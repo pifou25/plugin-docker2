@@ -13,7 +13,7 @@
         "Template non trouvé": "Plantilla no encontrada",
         "Description": "Descripción",
         "Paramètres": "Configuraciones",
-        "Actions": "Comparte",
+        "Actions": "Comportamiento",
         "Valider": "Validar"
     },
     "plugins\/docker2\/desktop\/modal\/logs.docker.php": {
