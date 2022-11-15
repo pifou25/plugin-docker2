@@ -26,13 +26,12 @@ if (!isConnect()) {
   <fieldset>
     <?php for ($i = 1; $i <= config::byKey('max_docker_number', "docker2"); $i++) { ?>
       <div class="col-lg-6">
-        <legend><i class="fas fa-broadcast-tower"></i> {{Docker}} <?php echo $i ?></legend>
         <div class="form-group">
-          <label class="col-md-3 control-label">{{Activer}}
-            <sup><i class="fas fa-question-circle tooltips" title="{{Cocher la case pour activer le docker}} <?php echo $i ?>"></i></sup>
+          <label class="col-md-4 control-label">{{Docker}} <?php echo $i ?>
+            <sup><i class="fas fa-question-circle tooltips" title="{{Cocher la case pour activer Docker}} <?php echo $i ?>"></i></sup>
           </label>
-          <div class="col-md-1">
-            <input type="checkbox" class="configKey" data-l1key="docker_config_<?php echo $i ?>" data-l2key="enable">
+          <div class="col-md-4">
+            <label class="checkbox-inline"><input type="checkbox" class="configKey" data-l1key="docker_config_<?php echo $i ?>" data-l2key="enable">{{Activer}}</label>
           </div>
         </div>
         <br>
