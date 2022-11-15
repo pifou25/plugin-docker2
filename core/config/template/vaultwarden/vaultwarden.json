@@ -1,15 +1,19 @@
 {
-    "eqLogic" : {
-        "configuration":{
-            "name":"vaultwarden",
-            "create::mode":"jeedom_run",
-            "saveMount":1,
-            "create::run":"-d --name vaultwarden -v vaultwarden:/data/ -p #UI_PORT#:80 vaultwarden/server:latest"
+    "eqLogic": {
+        "configuration": {
+            "name": "vaultwarden",
+            "create::mode": "jeedom_run",
+            "saveMount": 1,
+            "create::run": "-d --name vaultwarden -v vaultwarden:/data/ -p #UI_PORT#:80 vaultwarden/server:latest"
         }
     },
-    "description" : "Docker pour avoir utiliser Bitwarden avec un serveur local",
-    "configuration":{
-        "UI_PORT" : {"type":"number","name":"Port UI","default":"3080"}
+    "description": "Docker pour utiliser Bitwarden avec un serveur local.",
+    "configuration": {
+        "UI_PORT": {
+            "type": "number",
+            "name": "Port UI",
+            "default": "3080"
+        }
     },
-    "url" : "http://#internal#:#UI_PORT#"
+    "url": "http://#internal#:#UI_PORT#"
 }

@@ -1,14 +1,18 @@
 {
-    "eqLogic" : {
-        "configuration":{
-            "name":"adguardhome",
-            "create::mode":"jeedom_run",
-            "create::run":"--name adguardhome --restart unless-stopped -v adguard_work:/opt/adguardhome/work -v adguard_conf:/opt/adguardhome/conf -p 53:53/tcp -p 53:53/udp -p 67:67/udp -p 68:68/udp -p #UI_PORT#:3000/tcp -p 853:853/tcp -p 784:784/udp -p 853:853/udp -p 8853:8853/udp -p 5443:5443/tcp -p 5443:5443/udp -d adguard/adguardhome"
+    "eqLogic": {
+        "configuration": {
+            "name": "adguardhome",
+            "create::mode": "jeedom_run",
+            "create::run": "--name adguardhome --restart unless-stopped -v adguard_work:/opt/adguardhome/work -v adguard_conf:/opt/adguardhome/conf -p 53:53/tcp -p 53:53/udp -p 67:67/udp -p 68:68/udp -p #UI_PORT#:3000/tcp -p 853:853/tcp -p 784:784/udp -p 853:853/udp -p 8853:8853/udp -p 5443:5443/tcp -p 5443:5443/udp -d adguard/adguardhome"
         }
     },
-    "description" : "Docker pour avoir un DNS local qui bloque les publicité et le tracking.",
-    "configuration":{
-        "UI_PORT" : {"type":"number","name":"Port UI","default":"3000"}
+    "description": "Docker pour avoir un DNS local qui bloque les publicités et le tracking.",
+    "configuration": {
+        "UI_PORT": {
+            "type": "number",
+            "name": "Port UI",
+            "default": "3000"
+        }
     },
-    "url" : "http://#internal#:#UI_PORT#"
+    "url": "http://#internal#:#UI_PORT#"
 }

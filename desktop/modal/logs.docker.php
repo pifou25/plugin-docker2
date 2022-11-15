@@ -19,9 +19,9 @@ if (!isConnect('admin')) {
 }
 $eqLogic = docker2::byId(init('id'));
 if (!is_object($eqLogic)) {
-    throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
+    throw new \Exception(__('Equipement introuvable', __FILE__) . ' : ' . init('id'));
 }
-echo '<a class="btn btn-default pull-right" id="bt_refreshLog"><i class="fas fa-sync"></i></a><br/><br/>';
+echo '<a class="btn btn-default pull-right" id="bt_refreshLog"><i class="fas fa-sync"></i></a><br><br>';
 echo '<pre id="pre_docker2Logs">';
 echo $eqLogic->logs();
 echo '</pre>';
@@ -38,12 +38,15 @@ echo '</pre>';
                 id: <?php echo init('id') ?>
             },
             dataType: 'json',
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
+            error: function(error) {
+                $.fn.showAlert({
+                    message: error.message,
+                    level: 'danger'
+                })
             },
             success: function(data) {
-                $('#pre_docker2Logs').empty().append(data.result);
+                $('#pre_docker2Logs').empty().append(data.result)
             }
-        });
-    });
+        })
+    })
 </script>
