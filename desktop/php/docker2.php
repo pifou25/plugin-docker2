@@ -67,7 +67,7 @@ sendVarToJS('docker2_internal_ip', network::getNetworkAccess('internal', 'ip'));
 	<div class="col-xs-12 eqLogic" style="display: none;">
 		<div class="input-group pull-right" style="display:inline-flex;">
 			<span class="input-group-btn">
-				<a class="btn btn-sm btn-default" id="bt_docker2Assistant"><i class="fas fa-people-carry"></i><span class="hidden-xs"> {{Assistant}}</span>
+				<a class="btn btn-sm btn-default" id="bt_docker2Assistant"><i class="fas fa-people-carry"></i><span class="hidden-xs"> {{Assistants}}</span>
 				</a><a class="btn btn-sm btn-default eqLogicAction" data-action="configure"><i class="fas fa-cogs"></i><span class="hidden-xs"> {{Configuration avancée}}</span>
 				</a><a class="btn btn-sm btn-default eqLogicAction" data-action="copy"><i class="fas fa-copy"></i><span class="hidden-xs"> {{Dupliquer}}</span>
 				</a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}
