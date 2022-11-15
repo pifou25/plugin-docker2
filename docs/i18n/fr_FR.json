@@ -108,7 +108,7 @@
         "Wireguard": "Wireguard",
         "wg-easy": "wg-easy",
         "Code": "Code",
-        "Sur la page générale du plugin regroupant tous les équipements Docker, vous avez accès un bouton": "Sur la page générale du plugin regroupant tous les équipements Docker, vous avez accès un bouton",
-        "qui vous amènera directement dans un répertoire Jeedom prévus pour recevoire les fichiers de configuration de vos Dockers si cela était nécessaire": "qui vous amènera directement dans un répertoire Jeedom prévus pour recevoire les fichiers de configuration de vos Dockers si cela était nécessaire"
+        "Sur la page générale du plugin regroupant tous les équipements Docker, le bouton": "Sur la page générale du plugin regroupant tous les équipements Docker, le bouton",
+        "vous amène directement dans un répertoire Jeedom prévu pour recevoir les fichiers de configuration de vos Dockers si cela était nécessaire": "vous amène directement dans un répertoire Jeedom prévu pour recevoir les fichiers de configuration de vos Dockers si cela était nécessaire"
     }
 }
