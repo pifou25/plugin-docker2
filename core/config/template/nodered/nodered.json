@@ -1,19 +1,27 @@
 {
-    "eqLogic" : {
-        "configuration":{
-            "name":"nodered",
-            "create::mode":"jeedom_compose",
-            "saveMount":1
+    "eqLogic": {
+        "configuration": {
+            "name": "nodered",
+            "create::mode": "jeedom_compose",
+            "saveMount": 1
         }
     },
-    "description" : "Docker pour installer nodered, vous pouvez à l'aide du plugin MQTT piloter Jeedom depuis Nodered. Pour se connecter il faut mettre en nom d'utilisateur admin et le mot passe configuré en dessous",
-    "configuration":{
-        "NODERED_PORT" : {"type":"number","name":"Port Nodered","default":"1880"},
-        "PASSWORD" : {"type":"input","name":"Mot de passe (à ne surtout pas oublier)","default":"jeedom"}
+    "description": "Docker pour installer Nodered. Vous pouvez, à l'aide du plugin MQTT Manager, piloter Jeedom depuis Nodered. Pour se connecter il faut mettre en nom d'utilisateur admin et le mot passe configuré en dessous.",
+    "configuration": {
+        "NODERED_PORT": {
+            "type": "number",
+            "name": "Port Nodered",
+            "default": "1880"
+        },
+        "PASSWORD": {
+            "type": "input",
+            "name": "Mot de passe (à ne surtout pas oublier)",
+            "default": "jeedom"
+        }
     },
-    "docker-compose" : {
-        "file" : "nodered/nodered.compose"
+    "docker-compose": {
+        "file": "nodered/nodered.compose"
     },
-    "script" : "nodered/nodered.php",
-    "url" : "http://#INTERNAL#:#NODERED_PORT#"
+    "script": "nodered/nodered.php",
+    "url": "http://#INTERNAL#:#NODERED_PORT#"
 }

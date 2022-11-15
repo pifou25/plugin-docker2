@@ -16,14 +16,9 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
 class docker2 extends eqLogic {
-   /*     * *************************Attributs****************************** */
-
-
-   /*     * ***********************Methode static*************************** */
 
    public static function execCmd($_cmd, $_docker_number = 1, $_format = "{{json . }}", $_notrunc = true) {
       if ($_cmd == '') {
@@ -44,16 +39,16 @@ class docker2 extends eqLogic {
          $retval = null;
          exec($_cmd, $output, $retval);
          if ($retval != 0) {
-            throw new Exception(__('Erreur d\'éxécution de la commande : ', __FILE__) . $_cmd . ' (' . $retval . ') => ' . json_encode($output));
+            throw new Exception(__("Erreur d'exécution de la commande", __FILE__) . ' : ' . $_cmd . ' (' . $retval . ') => ' . json_encode($output));
          }
       } else if ($config['mode'] == 'ssh') {
          $connection = ssh2_connect($config['ip'], $config['port']);
          if ($connection === false) {
-            throw new Exception(__('Impossible de se connecter sur :', __FILE__) . ' ' . $config['ip'] . ':' . $config['mode']);
+            throw new Exception(__('Impossible de se connecter sur', __FILE__) . ' : ' . $config['ip'] . ':' . $config['mode']);
          }
          $auth = @ssh2_auth_password($connection, $config['username'], $config['password']);
          if (false === $auth) {
-            throw new Exception(__('Echec de l\'authentification SSH', __FILE__));
+            throw new Exception(__("Echec de l'authentification SSH", __FILE__));
          }
          $stream = ssh2_exec($connection, $_cmd);
          stream_set_blocking($stream, true);
@@ -81,7 +76,7 @@ class docker2 extends eqLogic {
 
    public static function restoreDockerFile($_filepath) {
       if (!file_exists($_filepath)) {
-         throw new Exception(__('Fichier de backup non trouvé : ', __FILE__) . $_filepath);
+         throw new Exception(__('Fichier de sauvegarde non trouvé', __FILE__) . ' : ' . $_filepath);
       }
       shell_exec('sudo tar -xf ' . $_filepath . ' -C /');
    }
@@ -98,7 +93,7 @@ class docker2 extends eqLogic {
                self::pull($i);
             }
          } catch (Exception $exc) {
-            log::add('docker2', 'error', __('Expression cron non valide pour docker ', __FILE__) . $config['cron']);
+            log::add('docker2', 'error', __('Expression cron non valide pour Docker', __FILE__) . ' ' . $i . ' : ' . $config['cron']);
          }
       }
    }
@@ -238,8 +233,6 @@ class docker2 extends eqLogic {
       return $return;
    }
 
-   /*     * *********************Méthodes d'instance************************* */
-
    public function postSave() {
       $cmd = $this->getCmd(null, 'start');
       if (!is_object($cmd)) {
@@ -257,7 +250,7 @@ class docker2 extends eqLogic {
       if (!is_object($cmd)) {
          $cmd = new docker2Cmd();
          $cmd->setLogicalId('stop');
-         $cmd->setName(__('Arreter', __FILE__));
+         $cmd->setName(__('Arrêter', __FILE__));
       }
       $cmd->setDisplay('icon', '<i class="fas fa-stop"></i>');
       $cmd->setType('action');
@@ -440,18 +433,18 @@ class docker2 extends eqLogic {
       switch ($this->getConfiguration('create::mode')) {
          case 'jeedom_run':
             if ($this->getConfiguration('create::run') == '') {
-               throw new Exception(__('Vous ne pouvez lancer la création d\'un docker depuis Jeedom sans commande de création', __FILE__));
+               throw new Exception(__('Impossible de créer un conteneur depuis Jeedom sans commande de création', __FILE__));
             }
             $cmd = system::getCmdSudo() . ' docker run ';
             $cmd .= ' ' . str_replace('docker run', '', str_replace(system::getCmdSudo() . ' docker run', '', $this->getConfiguration('create::run')));
             if (strpos($cmd, ' -d') === false) {
-               throw new Exception(__('Il n\'est pas possible de lancer un contenaire depuis Jeedom sans l\'option deamon', __FILE__));
+               throw new Exception(__('Impossible de démarrer un conteneur depuis Jeedom sans option de démon', __FILE__));
             }
             self::execCmd($cmd, $this->getConfiguration('docker_number', 1), null);
             break;
          case 'jeedom_compose':
             if ($this->getConfiguration('create::compose') == '') {
-               throw new Exception(__('Vous ne pouvez lancer la création d\'un docker depuis Jeedom sans docker compose', __FILE__));
+               throw new Exception(__('Impossible de créer un conteneur depuis Jeedom sans Docker Compose', __FILE__));
             }
             $filename = '/tmp/' . bin2hex(random_bytes(10)) . '.yml';
             file_put_contents($filename, $this->getConfiguration('create::compose'));
@@ -459,7 +452,7 @@ class docker2 extends eqLogic {
             unlink($filename);
             break;
          default:
-            throw new Exception(__('La création de ce docker n\'est pas gérée par Jeedom', __FILE__));
+            throw new Exception(__('Impossible de créer ce conteneur depuis Jeedom', __FILE__));
             break;
       }
 
@@ -495,7 +488,7 @@ class docker2 extends eqLogic {
          return;
       }
       if (!in_array($this->getConfiguration('create::mode'), array('jeedom_run', 'jeedom_compose'))) {
-         throw new Exception(__('La création de ce docker n\'est pas gérée par Jeedom, impossible de mettre à jour l\'image', __FILE__));
+         throw new Exception(__("Impossible de mettre à jour l'image de ce conteneur depuis Jeedom.", __FILE__));
       }
       $inspect = $this->inspect();
       try {
@@ -517,7 +510,7 @@ class docker2 extends eqLogic {
 
    public function backupDocker() {
       if ($this->getConfiguration('saveMount') == 0) {
-         throw new Exception(__('Ce docker n\'est pas sauvegardé', __FILE__));
+         throw new Exception(__("Ce conteneur n'est pas sauvegardé", __FILE__));
       }
       $folder = __DIR__ . '/../../data/mountsBackup';
       if (!file_exists($folder)) {
@@ -542,11 +535,11 @@ class docker2 extends eqLogic {
 
    public function restoreDocker() {
       if ($this->getConfiguration('saveMount') == 0) {
-         throw new Exception(__('Ce docker n\'est pas sauvegarder', __FILE__));
+         throw new Exception(__("Ce Docker n'est pas sauvegardé", __FILE__));
       }
       $filepath = __DIR__ . '/../../data/mountsBackup/' . $this->getId() . '.tar.gz';
       if (!file_exists($filepath)) {
-         throw new Exception(__('Aucune sauvegarde trouvée pour ce docker', __FILE__));
+         throw new Exception(__('Aucune sauvegarde trouvée pour ce conteneur', __FILE__));
       }
       self::restoreDockerFile($filepath);
       $this->restartDocker();
@@ -557,7 +550,7 @@ class docker2 extends eqLogic {
       if (isset($template['docker-compose'])) {
          $docker_compose = file_get_contents(__DIR__ . '/../config/template/' . $template['docker-compose']['file']);
          if ($docker_compose == '') {
-            throw new Exception(__('Erreur lors de la récuperation du docker compose : ', __FILE__) . $template['docker-compose']['file']);
+            throw new Exception(__('Erreur lors de la récupération du Docker Compose', __FILE__) . ' : ' . $template['docker-compose']['file']);
          }
       }
       $this->import($template['eqLogic'], true);
@@ -590,18 +583,9 @@ class docker2 extends eqLogic {
          }
       }
    }
-
-   /*     * **********************Getteur Setteur*************************** */
 }
 
 class docker2Cmd extends cmd {
-   /*     * *************************Attributs****************************** */
-
-
-   /*     * ***********************Methode static*************************** */
-
-
-   /*     * *********************Methode d'instance************************* */
 
    public function formatValueWidget($_value) {
       if ($this->getLogicalId() != 'state') {
@@ -635,6 +619,4 @@ class docker2Cmd extends cmd {
       }
       docker2::pull();
    }
-
-   /*     * **********************Getteur Setteur*************************** */
 }

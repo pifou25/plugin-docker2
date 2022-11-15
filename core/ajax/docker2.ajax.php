@@ -34,7 +34,7 @@ try {
   if (init('action') == 'logs') {
     $eqLogic = docker2::byId(init('id'));
     if (!is_object($eqLogic)) {
-      throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
+      throw new \Exception(__('Equipement introuvable', __FILE__) . ' : ' . init('id'));
     }
     ajax::success($eqLogic->logs());
   }
@@ -42,7 +42,7 @@ try {
   if (init('action') == 'backup') {
     $eqLogic = docker2::byId(init('id'));
     if (!is_object($eqLogic)) {
-      throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
+      throw new \Exception(__('Equipement introuvable', __FILE__) . ' : ' . init('id'));
     }
     ajax::success($eqLogic->backupDocker());
   }
@@ -50,7 +50,7 @@ try {
   if (init('action') == 'restore') {
     $eqLogic = docker2::byId(init('id'));
     if (!is_object($eqLogic)) {
-      throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
+      throw new \Exception(__('Equipement introuvable', __FILE__) . ' : ' . init('id'));
     }
     ajax::success($eqLogic->restoreDocker());
   }
@@ -62,14 +62,14 @@ try {
       mkdir($uploaddir);
     }
     if (!file_exists($uploaddir)) {
-      throw new Exception(__('Répertoire de téléversement non trouvé : ', __FILE__) . $uploaddir);
+      throw new Exception(__('Répertoire de téléversement non trouvé', __FILE__) . ' : ' . $uploaddir);
     }
     if (!isset($_FILES['file'])) {
-      throw new Exception(__('Aucun fichier trouvé. Vérifiez le paramètre PHP (post size limit)', __FILE__));
+      throw new Exception(__('Aucun fichier trouvé. Vérifiez le paramètre PHP', __FILE__) . ' post size limit');
     }
     $extension = strtolower(strrchr($_FILES['file']['name'], '.'));
     if (!in_array($extension, array('.gz'))) {
-      throw new Exception(__('Extension du fichier non valide (autorisé .tar.gz) : ', __FILE__) . $extension);
+      throw new Exception(__('Extension du fichier non valide (autorisé .tar.gz)', __FILE__) . ' : ' . $extension);
     }
     if (filesize($_FILES['file']['tmp_name']) > 100000000) {
       throw new Exception(__('Le fichier est trop gros (maximum 100Mo)', __FILE__));
@@ -90,7 +90,7 @@ try {
   if (init('action') == 'applyTemplate') {
     $eqLogic = docker2::byId(init('id'));
     if (!is_object($eqLogic)) {
-      throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
+      throw new \Exception(__('Equipement introuvable', __FILE__) . ' : ' . init('id'));
     }
     $eqLogic->applyTemplate(init('template'), init('values'));
     ajax::success();
@@ -98,7 +98,7 @@ try {
 
 
 
-  throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
+  throw new Exception(__('Aucune méthode correspondante à', __FILE__) . ' : ' . init('action'));
   /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
   ajax::error(displayException($e), $e->getCode());

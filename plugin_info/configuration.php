@@ -26,13 +26,13 @@ if (!isConnect()) {
   <fieldset>
     <?php for ($i = 1; $i <= config::byKey('max_docker_number', "docker2"); $i++) { ?>
       <div class="col-lg-6">
-        <legend><i class="fas fa-broadcast-tower"></i> {{Docker }}<?php echo $i ?></legend>
+        <legend><i class="fas fa-broadcast-tower"></i> {{Docker}} <?php echo $i ?></legend>
         <div class="form-group">
           <label class="col-md-3 control-label">{{Activer}}
             <sup><i class="fas fa-question-circle tooltips" title="{{Cocher la case pour activer le docker}} <?php echo $i ?>"></i></sup>
           </label>
           <div class="col-md-1">
-            <input type="checkbox" class="configKey" data-l1key="docker_config_<?php echo $i ?>" data-l2key="enable" />
+            <input type="checkbox" class="configKey" data-l1key="docker_config_<?php echo $i ?>" data-l2key="enable">
           </div>
         </div>
         <br>
@@ -40,14 +40,14 @@ if (!isConnect()) {
           <div class="form-group">
             <label class="col-md-5 control-label">{{Nom}}</label>
             <div class="col-md-6">
-              <input class="configKey form-control" data-l1key="docker_config_<?php echo $i ?>" data-l2key="name" />
+              <input class="configKey form-control" data-l1key="docker_config_<?php echo $i ?>" data-l2key="name">
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-5 control-label">{{Mode}}</label>
             <div class="col-md-6">
               <select class="configKey form-control" data-l1key="docker_config_<?php echo $i ?>" data-l2key="mode">
-                <option value="local">{{Locale}}</option>
+                <option value="local">{{Local}}</option>
               </select>
             </div>
           </div>
@@ -55,9 +55,9 @@ if (!isConnect()) {
             <label class="col-md-5 control-label">{{Fréquence de mise à jour}}</label>
             <div class="col-md-6">
               <div class="input-group">
-                <input class="configKey form-control" data-l1key="docker_config_<?php echo $i ?>" data-l2key="cron" />
+                <input class="configKey form-control" data-l1key="docker_config_<?php echo $i ?>" data-l2key="cron">
                 <span class="input-group-btn">
-                  <a class="btn btn-default btn-sm cursor jeeHelper" data-helper="cron"><i class="fas fa-question-circle"></i></a>
+                  <a class="btn btn-default jeeHelper" data-helper="cron"><i class="fas fa-question-circle"></i></a>
                 </span>
               </div>
             </div>
@@ -71,10 +71,10 @@ if (!isConnect()) {
   <?php for ($i = 1; $i <= config::byKey('max_docker_number', "docker2"); $i++) { ?>
     $('.configKey[data-l1key="docker_config_<?php echo $i ?>"][data-l2key=enable]').off('change').on('change', function() {
       if ($(this).value() == 0) {
-        $('#docker_number_<?php echo $i ?>').hide();
+        $('#docker_number_<?php echo $i ?>').hide()
       } else {
-        $('#docker_number_<?php echo $i ?>').show();
+        $('#docker_number_<?php echo $i ?>').show()
       }
-    });
+    })
   <?php } ?>
 </script>

@@ -19,11 +19,11 @@ if (!isConnect('admin')) {
 }
 $eqLogic = docker2::byId(init('id'));
 if (!is_object($eqLogic)) {
-    throw new \Exception(__('Equipement introuvable : ', __FILE__) . init('id'));
+    throw new \Exception(__('Equipement introuvable', __FILE__) . ' : ' . init('id'));
 }
 $template = docker2::getTemplate(init('template'));
 if (count($template) == 0) {
-    throw new \Exception(__('Template non trouvé : ', __FILE__) . init('template'));
+    throw new \Exception(__('Template non trouvé', __FILE__) . ' : ' . init('template'));
 }
 ?>
 <legend>{{Description}}</legend>
@@ -47,16 +47,16 @@ if (count($template) == 0) {
             switch ($config['type']) {
                 case 'input':
                     if (isset($config['readonly']) && $config['readonly'] == 1) {
-                        echo '<input class="form-control templateAttr" data-l1key="' . $id . '" readonly/>';
+                        echo '<input class="form-control templateAttr" data-l1key="' . $id . '" readonly>';
                     } else {
-                        echo '<input class="form-control templateAttr" data-l1key="' . $id . '" ' . $default . ' />';
+                        echo '<input class="form-control templateAttr" data-l1key="' . $id . '" ' . $default . '>';
                     }
                     break;
                 case 'number':
                     if (isset($config['readonly']) && $config['readonly'] == 1) {
-                        echo '<input type="number" class="form-control templateAttr" data-l1key="' . $id . '" min="' . (isset($config['min']) ? $config['min'] : '') . '" max="' . (isset($config['max']) ? $config['max'] : '') . '" readonly/>';
+                        echo '<input type="number" class="form-control templateAttr" data-l1key="' . $id . '" min="' . (isset($config['min']) ? $config['min'] : '') . '" max="' . (isset($config['max']) ? $config['max'] : '') . '" readonly>';
                     } else {
-                        echo '<input type="number" class="form-control templateAttr" data-l1key="' . $id . '" min="' . (isset($config['min']) ? $config['min'] : '') . '" max="' . (isset($config['max']) ? $config['max'] : '') . '" ' . $default . ' />';
+                        echo '<input type="number" class="form-control templateAttr" data-l1key="' . $id . '" min="' . (isset($config['min']) ? $config['min'] : '') . '" max="' . (isset($config['max']) ? $config['max'] : '') . '" ' . $default . '>';
                     }
                     break;
                 case 'select':
@@ -95,7 +95,7 @@ if (count($template) == 0) {
 
 <script>
     $('#bt_dockerCreateTemplate').off('click').on('click', function() {
-        var values = $('#form_dockerTemplate').getValues('.templateAttr')[0];
+        var values = $('#form_dockerTemplate').getValues('.templateAttr')[0]
         $.ajax({
             type: "POST",
             url: "plugins/docker2/core/ajax/docker2.ajax.php",
@@ -106,19 +106,22 @@ if (count($template) == 0) {
                 id: "<?php echo init('id') ?>"
             },
             dataType: 'json',
-            error: function(request, status, error) {
-                handleAjaxError(request, status, error);
+            error: function(error) {
+                $.fn.showAlert({
+                    message: error.message,
+                    level: 'danger'
+                })
             },
             success: function(data) {
                 if (data.state != 'ok') {
-                    $('#div_alert').showAlert({
+                    $.fn.showAlert({
                         message: data.result,
                         level: 'danger'
                     });
                     return;
                 }
-                window.location.reload();
+                window.location.reload()
             }
-        });
+        })
     })
 </script>

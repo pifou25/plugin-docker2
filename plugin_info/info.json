@@ -2,7 +2,7 @@
     "id": "docker2",
     "name": "Docker management",
     "description": {
-        "fr_FR": "Plugin docker pour gerer les containers",
+        "fr_FR": "Plugin Docker permettant de gérer des conteneurs dans Jeedom.",
         "en_US": "Docker plugin to manage containers",
         "es_ES": "Complemento de Docker para administrar contenedores",
         "de_DE": "Docker-Plugin zum Verwalten von Containern",
