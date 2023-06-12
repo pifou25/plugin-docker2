@@ -33,7 +33,7 @@
         "Docker sauvegardé": "Docker gesichert",
         "Equipement visible": "Sichtbare Ausrüstung",
         "Equipement non visible": "Ausrüstung nicht sichtbar",
-        "Assistant": "Assistent",
+        "Assistants": "Zauberer",
         "Configuration avancée": "Erweiterte Konfiguration",
         "Dupliquer": "Duplikat",
         "Sauvegarder": "Um zu schützen",
@@ -80,7 +80,7 @@
     "plugins\/docker2\/desktop\/js\/docker2.js": {
         "Logs": "Protokolle",
         "Nom du template ?": "Vorlagenname?",
-        "Assistants": "Assistenten",
+        "Assistants": "Zauberer",
         "Fichier(s) ajouté(s) avec succès": "Datei(en) erfolgreich hinzugefügt",
         "Opération réalisée avec succès": "Operation erfolgreich abgeschlossen",
         "Etes-vous sûr de vouloir restaurer la dernière sauvegarde de ce conteneur ?": "Möchten Sie wirklich die letzte Sicherung dieses Containers wiederherstellen?",
