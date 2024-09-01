@@ -80,7 +80,7 @@
     "plugins\/docker2\/desktop\/js\/docker2.js": {
         "Logs": "Registros",
         "Nom du template ?": "¿Nombre de la plantilla?",
-        "Assistants": "Magos",
+        "Assistants": "Asistentes",
         "Fichier(s) ajouté(s) avec succès": "Archivo (s) agregado (s) exitosamente",
         "Opération réalisée avec succès": "Operación realizada exitosamente",
         "Etes-vous sûr de vouloir restaurer la dernière sauvegarde de ce conteneur ?": "¿Está seguro de que desea restaurar la última copia de seguridad de este contenedor?",

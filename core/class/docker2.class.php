@@ -70,7 +70,10 @@ class docker2 extends eqLogic {
          if ($eqLogic->getConfiguration('saveMount') == 0) {
             continue;
          }
-         $eqLogic->backupDocker();
+         try {
+            $eqLogic->backupDocker();
+         } catch (Exception $e) {
+         }
       }
    }
 
