@@ -2,6 +2,9 @@
     "changelog.md": {
         "Changelog Docker management": "Gerenciamento do Changelog Docker",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "Recorde-se que se não há informação sobre a atualização é porque se trata apenas de atualização de documentação, tradução ou texto",
+        "01\/09\/2024": "01\/09\/2024",
+        "Amélioration de la fonction de backup": "Função de backup aprimorada",
+        "Correction d'un soucis sur le lien d'accès (non remplacement de": "Corrigido problema no link de acesso (não substituição de",
         "06\/05\/2022": "05\/06\/2022",
         "Correction d'un problème d'installation sur Raspberry Pi": "Corrigido problema de instalação no Raspberry Pi",
         "Ajout de la compatibilité Smart": "Compatibilidade inteligente adicionada",
