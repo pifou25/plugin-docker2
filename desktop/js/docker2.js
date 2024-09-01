@@ -17,8 +17,8 @@
 
 function printEqLogic(_eqLogic) {
   if (_eqLogic.configuration && _eqLogic.configuration.url_access) {
-    $('#link_dockerUrl').attr('href', _eqLogic.configuration.url_access.replace('#INTERNAL#', docker2_internal_ip))
-    $('#link_dockerUrl').text(_eqLogic.configuration.url_access.replace('#INTERNAL#', docker2_internal_ip))
+    $('#link_dockerUrl').attr('href', _eqLogic.configuration.url_access.replace('#INTERNAL#', docker2_internal_ip).replace('#internal#', docker2_internal_ip))
+    $('#link_dockerUrl').text(_eqLogic.configuration.url_access.replace('#INTERNAL#', docker2_internal_ip).replace('#internal#', docker2_internal_ip))
   }
 }
 
