@@ -12,7 +12,7 @@
             "type": "input",
             "name": "IP ou nom DNS"
         },
-        "PASSWORD": {
+        "PASSWORD_HASH": {
             "type": "input",
             "name": "Mot de passe d'accès à l'interface"
         },
