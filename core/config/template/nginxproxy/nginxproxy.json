@@ -1,0 +1,62 @@
+{
+    "eqLogic": {
+        "configuration": {
+            "name": "nginx-proxy-manager",
+            "create::mode": "jeedom_compose",
+            "saveMount": 1
+        }
+    },
+    "description": "Nginx Proxy Manager permet de gérer facilement des reverse proxies Nginx via une interface web, avec gestion automatique des certificats SSL Let's Encrypt. Par défaut, utilise une base SQLite embarquée. Optionnellement, vous pouvez utiliser la MariaDB de Jeedom en créant au préalable le schéma et l'utilisateur manuellement (voir documentation). L'interface d'administration est accessible sur le port configuré. Identifiants par défaut : admin@example.com / changeme.",
+    "configuration": {
+        "NPM_ADMIN_PORT": {
+            "type": "number",
+            "name": "Port interface d'administration",
+            "default": "81"
+        },
+        "NPM_HTTP_PORT": {
+            "type": "number",
+            "name": "Port HTTP public",
+            "default": "80"
+        },
+        "NPM_HTTPS_PORT": {
+            "type": "number",
+            "name": "Port HTTPS public",
+            "default": "443"
+        },
+        "TZ": {
+            "type": "input",
+            "name": "Timezone",
+            "default": "Europe/Paris"
+        },
+        "USE_MYSQL": {
+            "type": "checkbox",
+            "name": "Utiliser MariaDB de Jeedom (au lieu de SQLite)",
+            "default": "0"
+        },
+        "NPM_DB_HOST": {
+            "type": "input",
+            "name": "Host MariaDB (si activé ci-dessus)",
+            "default": "172.17.0.1"
+        },
+        "NPM_DB_USER": {
+            "type": "input",
+            "name": "User MariaDB pour NPM",
+            "default": "npm"
+        },
+        "NPM_DB_PASSWORD": {
+            "type": "input",
+            "name": "Mot de passe MariaDB pour NPM",
+            "default": ""
+        },
+        "NPM_DB_NAME": {
+            "type": "input",
+            "name": "Nom du schéma MariaDB pour NPM",
+            "default": "npm"
+        }
+    },
+    "docker-compose": {
+        "file": "nginx-proxy-manager/nginxproxy.compose"
+    },
+    "script": "nginx-proxy-manager/nginxproxy.php",
+    "url": "http://#INTERNAL#:#NPM_ADMIN_PORT#"
+}
