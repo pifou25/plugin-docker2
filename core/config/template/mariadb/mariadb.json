@@ -6,7 +6,7 @@
             "saveMount": 1
         }
     },
-    "description": "Instance MariaDB dédiée dans un conteneur Docker. Le port d'écoute et le mot de passe root sont configurables. Optionnellement, un schéma et un utilisateur peuvent être créés au premier démarrage (utile par exemple pour Nginx Proxy Manager). Attention : ces valeurs ne sont prises en compte qu'à la première initialisation des données.",
+    "description": "Instance MariaDB dédiée avec LibreDB Studio, un client web pour parcourir et modifier la base. Le port MariaDB, le mot de passe root et le port de LibreDB sont configurables. Pour se connecter à MariaDB depuis LibreDB : hôte 'mariadb', port 3306, utilisateur 'root' et le mot de passe root ci-dessous. Attention : le mot de passe root et le schéma/utilisateur optionnels ne sont pris en compte qu'à la première initialisation des données.",
     "configuration": {
         "MARIADB_PORT": {
             "type": "number",
@@ -15,7 +15,7 @@
         },
         "MARIADB_ROOT_PASSWORD": {
             "type": "input",
-            "name": "Mot de passe root (à ne surtout pas oublier)",
+            "name": "Mot de passe root MariaDB (à ne surtout pas oublier)",
             "default": "jeedom"
         },
         "MARIADB_DATABASE": {
@@ -33,6 +33,21 @@
             "name": "Mot de passe de cet utilisateur",
             "default": ""
         },
+        "LIBREDB_PORT": {
+            "type": "number",
+            "name": "Port de LibreDB Studio",
+            "default": "3000"
+        },
+        "LIBREDB_ADMIN_EMAIL": {
+            "type": "input",
+            "name": "Email administrateur LibreDB",
+            "default": "admin@example.com"
+        },
+        "LIBREDB_ADMIN_PASSWORD": {
+            "type": "input",
+            "name": "Mot de passe administrateur LibreDB",
+            "default": "jeedom"
+        },
         "TZ": {
             "type": "input",
             "name": "Timezone",
@@ -41,5 +56,6 @@
     },
     "docker-compose": {
         "file": "mariadb/mariadb.compose"
-    }
+    },
+    "url": "http://#INTERNAL#:#LIBREDB_PORT#"
 }
