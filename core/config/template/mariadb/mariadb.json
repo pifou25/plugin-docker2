@@ -1,0 +1,45 @@
+{
+    "eqLogic": {
+        "configuration": {
+            "name": "mariadb",
+            "create::mode": "jeedom_compose",
+            "saveMount": 1
+        }
+    },
+    "description": "Instance MariaDB dédiée dans un conteneur Docker. Le port d'écoute et le mot de passe root sont configurables. Optionnellement, un schéma et un utilisateur peuvent être créés au premier démarrage (utile par exemple pour Nginx Proxy Manager). Attention : ces valeurs ne sont prises en compte qu'à la première initialisation des données.",
+    "configuration": {
+        "MARIADB_PORT": {
+            "type": "number",
+            "name": "Port d'écoute MariaDB",
+            "default": "3307"
+        },
+        "MARIADB_ROOT_PASSWORD": {
+            "type": "input",
+            "name": "Mot de passe root (à ne surtout pas oublier)",
+            "default": "jeedom"
+        },
+        "MARIADB_DATABASE": {
+            "type": "input",
+            "name": "Schéma à créer au premier démarrage (optionnel)",
+            "default": ""
+        },
+        "MARIADB_USER": {
+            "type": "input",
+            "name": "Utilisateur à créer (optionnel, nécessite le schéma)",
+            "default": ""
+        },
+        "MARIADB_PASSWORD": {
+            "type": "input",
+            "name": "Mot de passe de cet utilisateur",
+            "default": ""
+        },
+        "TZ": {
+            "type": "input",
+            "name": "Timezone",
+            "default": "Europe/Paris"
+        }
+    },
+    "docker-compose": {
+        "file": "mariadb/mariadb.compose"
+    }
+}

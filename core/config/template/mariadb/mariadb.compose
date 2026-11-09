@@ -1,0 +1,14 @@
+services:
+  mariadb:
+    image: 'mariadb:lts'
+    restart: unless-stopped
+    ports:
+      - '#MARIADB_PORT#:3306'
+    environment:
+      TZ: '#TZ#'
+      MARIADB_ROOT_PASSWORD: '#MARIADB_ROOT_PASSWORD#'
+      MARIADB_DATABASE: '#MARIADB_DATABASE#'
+      MARIADB_USER: '#MARIADB_USER#'
+      MARIADB_PASSWORD: '#MARIADB_PASSWORD#'
+    volumes:
+      - ./data:/var/lib/mysql
