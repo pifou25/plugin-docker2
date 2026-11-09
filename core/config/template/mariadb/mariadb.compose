@@ -1,0 +1,37 @@
+services:
+  mariadb:
+    image: 'mariadb:lts'
+    restart: unless-stopped
+    ports:
+      - '#MARIADB_PORT#:3306'
+    environment:
+      TZ: '#TZ#'
+      MARIADB_ROOT_PASSWORD: '#MARIADB_ROOT_PASSWORD#'
+      MARIADB_DATABASE: '#MARIADB_DATABASE#'
+      MARIADB_USER: '#MARIADB_USER#'
+      MARIADB_PASSWORD: '#MARIADB_PASSWORD#'
+    volumes:
+      - ./data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  libredb:
+    image: 'libredb/libredb-studio:latest'
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    ports:
+      - '#LIBREDB_PORT#:3000'
+    environment:
+      TZ: '#TZ#'
+      ADMIN_EMAIL: '#LIBREDB_ADMIN_EMAIL#'
+      ADMIN_PASSWORD: '#LIBREDB_ADMIN_PASSWORD#'
+      STORAGE_PROVIDER: 'sqlite'
+      STORAGE_SQLITE_PATH: '/app/data/libredb-storage.db'
+    volumes:
+      - ./libredb:/app/data
