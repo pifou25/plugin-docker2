@@ -1,0 +1,61 @@
+{
+    "eqLogic": {
+        "configuration": {
+            "name": "mariadb",
+            "create::mode": "jeedom_compose",
+            "saveMount": 1
+        }
+    },
+    "description": "Instance MariaDB dédiée avec LibreDB Studio, un client web pour parcourir et modifier la base. La connexion à MariaDB (utilisateur root) est préconfigurée dans LibreDB. Le port MariaDB, le mot de passe root et le port de LibreDB sont configurables. Attention : le mot de passe root et le schéma/utilisateur optionnels ne sont pris en compte qu'à la première initialisation des données.",
+    "configuration": {
+        "MARIADB_PORT": {
+            "type": "number",
+            "name": "Port d'écoute MariaDB",
+            "default": "3307"
+        },
+        "MARIADB_ROOT_PASSWORD": {
+            "type": "input",
+            "name": "Mot de passe root MariaDB (à ne surtout pas oublier)",
+            "default": "jeedom"
+        },
+        "MARIADB_DATABASE": {
+            "type": "input",
+            "name": "Schéma à créer au premier démarrage (optionnel)",
+            "default": ""
+        },
+        "MARIADB_USER": {
+            "type": "input",
+            "name": "Utilisateur à créer (optionnel, nécessite le schéma)",
+            "default": ""
+        },
+        "MARIADB_PASSWORD": {
+            "type": "input",
+            "name": "Mot de passe de cet utilisateur",
+            "default": ""
+        },
+        "LIBREDB_PORT": {
+            "type": "number",
+            "name": "Port de LibreDB Studio",
+            "default": "3000"
+        },
+        "LIBREDB_ADMIN_EMAIL": {
+            "type": "input",
+            "name": "Email administrateur LibreDB",
+            "default": "admin@example.com"
+        },
+        "LIBREDB_ADMIN_PASSWORD": {
+            "type": "input",
+            "name": "Mot de passe administrateur LibreDB",
+            "default": "jeedom"
+        },
+        "TZ": {
+            "type": "input",
+            "name": "Timezone",
+            "default": "Europe/Paris"
+        }
+    },
+    "docker-compose": {
+        "file": "mariadb/mariadb.compose"
+    },
+    "url": "http://#INTERNAL#:#LIBREDB_PORT#"
+}
